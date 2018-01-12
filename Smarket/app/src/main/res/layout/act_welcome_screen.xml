@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/mercado"
+    tools:context="com.example.talit.smarket.Activities.WelcomeScreen">
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <ImageButton
+        android:id="@+id/btn_language"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="05dp"
+        android:layout_marginEnd="05dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/style_buttons_intro"
+        android:src="@mipmap/ic_language"
+        android:onClick="escolherIdiomas"
+        tools:ignore="RelativeOverlap,RtlHardcoded" />
+
+    <LinearLayout
+        android:id="@+id/layoutImage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="05dp"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/imLocais"
+            android:layout_width="230dp"
+            android:layout_height="230dp"
+            android:foregroundGravity="center"
+            android:layout_marginTop="50dp"
+            tools:ignore="ContentDescription" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layoutDots"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dots_height"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/dots_bottom_margin"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:alpha=".5"
+        android:layout_above="@id/layoutDots"
+        android:background="@android:color/white"
+        android:id="@+id/view" />
+
+    <ImageButton
+        android:id="@+id/btn_next"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="03dp"
+        android:layout_marginEnd="05dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:tint="#ccc"
+        android:background="@drawable/style_buttons_intro"
+        android:src="@drawable/ic_arrow_forward_black_24dp"
+        android:onClick="btnNextClick"
+        tools:ignore="RelativeOverlap,RtlHardcoded" />
+
+    <ImageButton
+        android:id="@+id/btn_skip"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="03dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="05dp"
+        android:layout_alignParentLeft="true"
+        android:background="@drawable/style_buttons_intro"
+        android:src="@drawable/ic_arrow_back_black_24dp"
+        android:tint="#ccc"
+        android:onClick="btnSkipClick"
+        tools:ignore="RtlHardcoded" />
+
+</RelativeLayout>
