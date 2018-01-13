@@ -60,21 +60,19 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/MyTheme.NoActionBar" />
-
         <activity
             android:name=".ActConsumidores.PaginaInicialConsumidor"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/MyTheme.NoActionBar" />
-
         <activity
             android:name=".ActConsumidores.CadastroPessoaFisica"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@style/MyTheme.NoActionBar"/>
-
+            android:theme="@style/MyTheme.NoActionBar" />
+        <activity android:name=".ActConsumidores.CadastroPessoaJuridica"></activity>
     </application>
 
 </manifest>
