@@ -56,5 +56,17 @@
     <string name="btn_continuar">Continuar</string>
     <string name="txt_aviso">Aviso</string>
     <string name="txt_aceite_os_termos">Aceite os termos antes de prosseguir.</string>
-    <string name="txt_fechar">Fcehar</string>
+    <string name="txt_fechar">Fechar</string>
+    <string name="edt_nome_fantasia">Nome fantasia</string>
+    <string name="ed_razao_social">Razão social</string>
+    <string name="ed_cnpj">CNPJ</string>
+    <string name="txt_fase_um">1</string>
+    <string name="txt_fase_dois">2</string>
+    <string name="txt_fase_tres">3</string>
+    <string name="edt_nome_funcionario">Nome do Funcionário</string>
+    <string name="edt_sobrenome"> Sobrenome</string>
+    <string name="ed_dpf">CPF</string>
+    <string name="ed_usuario_pj">Usuário (e-mail corporativo)</string>
+    <string name="txt_valida_cnpj">CNPJ Inválido!</string>
+    <string name="txt_solicia_pj">Insira os dados de sua empresa:</string>
 </resources>

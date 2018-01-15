@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.talit.smarket.ActConsumidores.CadastroPessoaFisica;
+import com.example.talit.smarket.ActConsumidores.CadastroPessoaJuridica;
 import com.example.talit.smarket.ActConsumidores.PaginaInicialConsumidor;
 import com.example.talit.smarket.R;
 import com.example.talit.smarket.Utils.Validacoes;
@@ -380,7 +381,7 @@ public class AutenticaUsuario extends AppCompatActivity{
             @Override
             public void onClick(View view) {
                 dialogo.dismiss();
-                startActivity(new Intent(AutenticaUsuario.this, PaginaInicialConsumidor.class));
+                startActivity(new Intent(AutenticaUsuario.this, CadastroPessoaJuridica.class));
                 finish();
             }
         });

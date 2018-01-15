@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="16dp"
+    android:layout_marginTop="16dp"
+    android:background="@color/transparente">
+
+    <TextView
+        android:id="@+id/level_tres"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:background="@drawable/borda_level"
+        android:gravity="center"
+        android:text="@string/txt_fase_tres"
+        android:textColor="#ffff" />
+
+    <View
+        android:id="@+id/divider_level_tres"
+        android:layout_width="1dp"
+        android:layout_height="190dp"
+        android:layout_below="@id/level_tres"
+        android:layout_marginStart="30dp"
+        android:background="@color/colorPrimaryDark" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/level_tres"
+        android:layout_toEndOf="@+id/divider_level_tres"
+        android:layout_marginEnd="13dp"
+        android:layout_marginStart="35dp"
+        android:layout_marginTop="15dp"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/edt_user_funcionario"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="50dp"
+            android:background="@drawable/borda_edittext"
+            android:drawableLeft="@mipmap/ic_pessoa"
+            android:ems="10"
+            android:hint="@string/ed_usuario_pj"
+            android:inputType="textEmailAddress"
+            android:textColor="@color/colorPrimaryDark"
+            android:textColorHint="@color/colorAccent"
+            tools:ignore="RtlHardcoded,TextFields,UnusedAttribute" />
+
+        <EditText
+            android:id="@+id/edt_senha_funcionario"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/borda_edittext"
+            android:drawableLeft="@mipmap/ic_cadeado_senha"
+            android:ems="10"
+            android:hint="@string/edt_senha_cliente"
+            android:inputType="textPassword"
+            android:textColor="@color/colorPrimaryDark"
+            android:textColorHint="@color/colorAccent"
+            tools:ignore="RtlHardcoded,TextFields,UnusedAttribute" />
+
+        <EditText
+            android:id="@+id/edt_senha_confir"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/borda_edittext"
+            android:drawableLeft="@mipmap/ic_cadeado_senha"
+            android:ems="10"
+            android:hint="@string/ed_confirm_senha"
+            android:inputType="textPassword"
+            android:textColor="@color/colorPrimaryDark"
+            android:textColorHint="@color/colorAccent"
+            tools:ignore="RtlHardcoded,TextFields,UnusedAttribute" />
+
+
+    </LinearLayout>
+
+</RelativeLayout>

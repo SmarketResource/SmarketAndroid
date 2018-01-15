@@ -1,9 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/mercado"
     tools:context="com.example.talit.smarket.ActConsumidores.CadastroPessoaJuridica">
 
-</android.support.constraint.ConstraintLayout>
+    <ScrollView
+        android:id="@+id/alterar_dados"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:scrollbarAlwaysDrawVerticalTrack="true"
+            tools:ignore="Orientation">
+
+            <LinearLayout
+                android:id="@+id/ln_dados_empresa"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:scrollbarAlwaysDrawVerticalTrack="true">
+
+                <include layout="@layout/custom_layout_dados_empresa" />
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/nivel_um"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone"
+                android:scrollbarAlwaysDrawVerticalTrack="true">
+
+                <TextView
+                    android:id="@+id/level_um"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/borda_level"
+                    android:gravity="center"
+                    android:text="@string/txt_fase_um"
+                    android:textColor="#ffff" />
+
+                <TextView
+                    android:id="@+id/txt_solicita_dados"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="23dp"
+                    android:gravity="center"
+                    android:layout_toEndOf="@+id/level_um"
+                    android:text="@string/txt_solicia_pj"
+                    android:textColor="#ffff"
+                    android:textSize="18dp"
+                    tools:ignore="HardcodedText,SpUsage" />
+
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/ln_dados_funcionarios"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:scrollbarAlwaysDrawVerticalTrack="true"
+                android:visibility="gone">
+
+                <include layout="@layout/custom_layout_dados_funcionarios" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ln_dados_login"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:scrollbarAlwaysDrawVerticalTrack="true"
+                android:visibility="gone">
+
+                <include
+                    layout="@layout/custom_layout_dados_login_pj"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <ProgressBar
+        android:id="@+id/pb_cadastro"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:visibility="gone" />
+
+</RelativeLayout>
