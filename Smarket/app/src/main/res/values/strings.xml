@@ -67,6 +67,10 @@
     <string name="edt_sobrenome"> Sobrenome</string>
     <string name="ed_dpf">CPF</string>
     <string name="ed_usuario_pj">Usuário (e-mail corporativo)</string>
+    <string name="txt_valida_cpf">CPF Inválido!</string>/string>
     <string name="txt_valida_cnpj">CNPJ Inválido!</string>
-    <string name="txt_solicia_pj">Insira os dados de sua empresa:</string>
+    <string name="txt_solicia_pj">Dados da Empresa</string>
+    <string name="txt_solicia_func">Dados do Funcionário</string>
+    <string name="txt_solicia_login">Dados para Login</string>
+    <string name="btn_prosseguir">Próximo</string>
 </resources>

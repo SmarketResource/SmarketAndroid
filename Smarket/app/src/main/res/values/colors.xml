@@ -3,6 +3,7 @@
     <color name="colorPrimary">#02243b</color>
     <color name="colorPrimaryDark">#cccccc</color>
     <color name="colorAccent">#f9a61a</color>
+    <color name="colorAccentTransparent">#50f9a61a</color>
 
     <!-- cores da tela de intro -->
     <color name="bg_screen1">#02243b</color>

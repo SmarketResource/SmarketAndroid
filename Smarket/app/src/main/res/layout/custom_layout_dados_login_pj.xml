@@ -4,7 +4,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginBottom="16dp"
-    android:layout_marginTop="16dp"
+    android:layout_marginTop="20dp"
     android:background="@color/transparente">
 
     <TextView
@@ -18,15 +18,29 @@
         android:text="@string/txt_fase_tres"
         android:textColor="#ffff" />
 
+    <TextView
+        android:id="@+id/txt_dados_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="23dp"
+        android:gravity="center"
+        android:layout_toEndOf="@+id/level_tres"
+        android:text="@string/txt_solicia_login"
+        android:textColor="#ffff"
+        android:textSize="18dp"
+        tools:ignore="HardcodedText,SpUsage" />
+
     <View
         android:id="@+id/divider_level_tres"
         android:layout_width="1dp"
-        android:layout_height="190dp"
+        android:layout_height="305dp"
         android:layout_below="@id/level_tres"
         android:layout_marginStart="30dp"
         android:background="@color/colorPrimaryDark" />
 
     <LinearLayout
+        android:id="@+id/login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/level_tres"
@@ -50,6 +64,17 @@
             android:textColorHint="@color/colorAccent"
             tools:ignore="RtlHardcoded,TextFields,UnusedAttribute" />
 
+        <TextView
+            android:id="@+id/txt_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="05dp"
+            android:layout_marginStart="08dp"
+            android:layout_marginTop="05dp"
+            android:textAllCaps="false"
+            android:textColor="@android:color/holo_red_light"
+            android:textSize="12sp" />
+
         <EditText
             android:id="@+id/edt_senha_funcionario"
             android:layout_width="match_parent"
@@ -63,6 +88,17 @@
             android:textColor="@color/colorPrimaryDark"
             android:textColorHint="@color/colorAccent"
             tools:ignore="RtlHardcoded,TextFields,UnusedAttribute" />
+
+        <TextView
+            android:id="@+id/txt_senha"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="05dp"
+            android:layout_marginStart="08dp"
+            android:layout_marginTop="05dp"
+            android:textAllCaps="false"
+            android:textColor="@android:color/holo_red_light"
+            android:textSize="12sp" />
 
         <EditText
             android:id="@+id/edt_senha_confir"
@@ -78,7 +114,32 @@
             android:textColorHint="@color/colorAccent"
             tools:ignore="RtlHardcoded,TextFields,UnusedAttribute" />
 
+        <TextView
+            android:id="@+id/txt_senha_confirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="05dp"
+            android:layout_marginStart="08dp"
+            android:layout_marginTop="05dp"
+            android:textAllCaps="false"
+            android:textColor="@android:color/holo_red_light"
+            android:textSize="12sp" />
 
     </LinearLayout>
+
+    <Button
+        android:id="@+id/bt_cadastrar"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_alignParentEnd="true"
+        android:layout_toEndOf="@id/divider_level_tres"
+        android:layout_below="@+id/login"
+        android:background="#50f9a61a"
+        android:enabled="false"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="13dp"
+        android:text="@string/btn_prosseguir"
+        android:textColor="#fff"
+        tools:ignore="RelativeOverlap,RtlHardcoded" />
 
 </RelativeLayout>
