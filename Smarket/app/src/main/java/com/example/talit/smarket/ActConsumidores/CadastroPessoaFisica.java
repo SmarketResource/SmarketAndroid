@@ -14,12 +14,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -64,6 +69,18 @@ public class CadastroPessoaFisica extends AppCompatActivity {
     private TextView txtValidaTelefone;
     private TextView txtValidaSenha;
     private TextView txtValidaConfirSenha;
+    private Button btnLevelUm;
+    private LinearLayout lnDadosConsumidor;
+    private LinearLayout lnDadosSenhaCons;
+    private RelativeLayout relativeLevelUm;
+    private RelativeLayout relativeLevelDois;
+    private Animation direitaParaEsquerda;
+    private Animation deBaixoParaCima;
+    private ImageView imageUm;
+    private ImageView imageDois;
+    private TextView txtLevelUm;
+    private TextView txtLevelDois;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +102,18 @@ public class CadastroPessoaFisica extends AppCompatActivity {
         txtValidaTelefone = findViewById(R.id.txt_telefone);
         txtValidaSenha = findViewById(R.id.txt_senha);
         txtValidaConfirSenha = findViewById(R.id.txt_confirmar_senha);
+        btnLevelUm = findViewById(R.id.bt_level_um);
+        lnDadosConsumidor = findViewById(R.id.ln_dados_consumidor);
+        lnDadosSenhaCons = findViewById(R.id.ln_dados_senha);
+        relativeLevelUm = findViewById(R.id.nivel_um);
+        relativeLevelDois = findViewById(R.id.nivel_dois);
+        imageUm = findViewById(R.id.concluido_um);
+        imageDois = findViewById(R.id.concluido_dois);
+        txtLevelUm = findViewById(R.id.level_um_down);
+        txtLevelDois = findViewById(R.id.level_dois_down);
+
+        direitaParaEsquerda = AnimationUtils.loadAnimation(this,R.anim.da_direita_para_esquerda);
+        deBaixoParaCima = AnimationUtils.loadAnimation(this,R.anim.para_cima);
 
         tpTel = new String[]{getString(R.string.smp_desc_telefone), getString(R.string.smp_desc_celular)};
         adp = new ArrayAdapter<String>(this, R.layout.custom_textview_to_spinner, tpTel);
@@ -130,6 +159,7 @@ public class CadastroPessoaFisica extends AppCompatActivity {
                     txtValidaNome.setText(null);
                     haNome = false;
                 }
+                validaStepUm();
             }
 
             @Override
@@ -159,6 +189,7 @@ public class CadastroPessoaFisica extends AppCompatActivity {
                     haSobrenome = false;
                     txtValidaSobreNome.setText(null);
                 }
+                validaStepUm();
             }
 
             @Override
@@ -188,7 +219,7 @@ public class CadastroPessoaFisica extends AppCompatActivity {
                     haEmail = false;
                     txtValidaEmail.setText(null);
                 }
-
+                validaStepUm();
             }
 
             @Override
@@ -215,6 +246,7 @@ public class CadastroPessoaFisica extends AppCompatActivity {
                     haTelefone = false;
                     txtValidaTelefone.setText(null);
                 }
+                validaStepUm();
             }
 
             @Override
@@ -245,6 +277,7 @@ public class CadastroPessoaFisica extends AppCompatActivity {
                     haSenha = false;
                     txtValidaSenha.setText(null);
                 }
+                validaCadastro();
             }
 
             @Override
@@ -281,6 +314,7 @@ public class CadastroPessoaFisica extends AppCompatActivity {
                     txtValidaConfirSenha.setText(null);
 
                 }
+                validaCadastro();
             }
 
             @Override
@@ -334,20 +368,61 @@ public class CadastroPessoaFisica extends AppCompatActivity {
         btnCadastrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 verificaEntradas();
             }
-
+        });
+        btnLevelUm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                lnDadosConsumidor.setVisibility(View.GONE);
+                relativeLevelDois.setVisibility(View.GONE);
+                relativeLevelUm.setVisibility(View.VISIBLE);
+                lnDadosSenhaCons.setVisibility(View.VISIBLE);
+                relativeLevelUm.setAnimation(deBaixoParaCima);
+                txtLevelUm.setText(null);
+                imageUm.setVisibility(View.VISIBLE);
+                lnDadosSenhaCons.setAnimation(direitaParaEsquerda);
+            }
         });
     }
 
+    public void validaCadastro(){
+        if(!TextUtils.isEmpty(edtSenha.getText().toString())&&
+                !TextUtils.isEmpty(edtConfirSenha.getText().toString())){
+            if(!haSenha && !haConfirmarsenha){
+                Validacoes.requestFocus(btnCadastrar);
+                btnCadastrar.setBackground(getResources().getDrawable(R.drawable.bordas_grid_buttons));
+                btnCadastrar.setEnabled(true);
+            }else{
+                btnCadastrar.setBackground(getResources().getDrawable(R.drawable.inactive_button));
+                btnCadastrar.setEnabled(false);
+            }
+
+        }else{
+            btnCadastrar.setBackground(getResources().getDrawable(R.drawable.inactive_button));
+            btnCadastrar.setEnabled(false);
+        }
+    }
+
+    public void validaStepUm(){
+        if(!TextUtils.isEmpty(edtNome.getText().toString()) && !TextUtils.isEmpty(edtSobrenome.getText().toString()) &&
+                !TextUtils.isEmpty(edtEmail.getText().toString())&& !TextUtils.isEmpty(edtTel.getText().toString())){
+
+            if(!haNome && !haSobrenome && !haTelefone && !haEmail){
+                Validacoes.requestFocus(btnLevelUm);
+                btnLevelUm.setBackground(getResources().getDrawable(R.drawable.bordas_grid_buttons));
+                btnLevelUm.setEnabled(true);
+            }else{
+                btnLevelUm.setBackgroundResource(R.drawable.inactive_button);
+                btnLevelUm.setEnabled(false);
+            }
+        }else{
+            btnLevelUm.setBackgroundResource(R.drawable.inactive_button);
+            btnLevelUm.setEnabled(false);
+        }
+    }
+
    public void verificaEntradas() {
-        Log.i("nome", haNome +"");
-        Log.i("sobrenome", haSobrenome +"");
-        Log.i("email", haEmail +"");
-        Log.i("telefone", haTelefone +"");
-        Log.i("haSenha", haSenha +"");
-        Log.i("haConfirmar", haConfirmarsenha +"");
 
         if(!haNome && !haSobrenome && !haEmail && !haTelefone && !haSenha && !haConfirmarsenha) {
 

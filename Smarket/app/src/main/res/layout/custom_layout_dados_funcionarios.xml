@@ -34,9 +34,9 @@
     <View
         android:id="@+id/divider_level_dois"
         android:layout_width="1dp"
-        android:layout_height="293dp"
+        android:layout_height="285dp"
         android:layout_below="@id/level_dois"
-        android:layout_marginStart="30dp"
+        android:layout_marginStart="33dp"
         android:background="@color/colorPrimaryDark" />
 
     <LinearLayout
@@ -125,22 +125,18 @@
             android:textColor="@android:color/holo_red_light"
             android:textSize="12sp" />
 
+        <Button
+            android:id="@+id/bt_level_tres"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@drawable/inactive_button"
+            android:enabled="false"
+            android:layout_marginTop="10dp"
+            android:text="@string/btn_prosseguir"
+            android:textColor="#fff"
+            tools:ignore="RelativeOverlap,RtlHardcoded" />
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/bt_level_tres"
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:layout_alignParentEnd="true"
-        android:layout_toEndOf="@id/divider_level_dois"
-        android:layout_below="@+id/funcionarios"
-        android:background="#50f9a61a"
-        android:enabled="false"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="13dp"
-        android:text="@string/btn_prosseguir"
-        android:textColor="#fff"
-        tools:ignore="RelativeOverlap,RtlHardcoded" />
 
 </RelativeLayout>

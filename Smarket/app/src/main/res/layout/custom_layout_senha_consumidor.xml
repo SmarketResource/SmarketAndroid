@@ -34,7 +34,7 @@
     <View
         android:id="@+id/divider_level_tres"
         android:layout_width="1dp"
-        android:layout_height="300dp"
+        android:layout_height="210dp"
         android:layout_below="@id/level_tres"
         android:layout_marginStart="33dp"
         android:background="@color/colorPrimaryDark" />
@@ -43,51 +43,27 @@
         android:id="@+id/login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/level_tres"
+        android:layout_alignStart="@+id/divider_level_tres"
         android:layout_toEndOf="@+id/divider_level_tres"
         android:layout_marginEnd="13dp"
-        android:layout_marginStart="35dp"
+        android:layout_marginStart="15dp"
         android:layout_marginTop="15dp"
         android:orientation="vertical">
 
         <EditText
-            android:id="@+id/edt_user_funcionario"
-            android:layout_width="match_parent"
+            android:id="@+id/ed_senha_cadastrar"
+            android:layout_width="fill_parent"
             android:layout_height="50dp"
             android:layout_marginTop="50dp"
             android:background="@drawable/borda_edittext"
-            android:drawableLeft="@mipmap/ic_pessoa"
-            android:ems="10"
-            android:hint="@string/ed_usuario_pj"
-            android:inputType="textEmailAddress"
-            android:textColor="@color/colorPrimaryDark"
-            android:textColorHint="@color/colorAccent"
-            tools:ignore="RtlHardcoded,TextFields,UnusedAttribute" />
-
-        <TextView
-            android:id="@+id/txt_email"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="05dp"
-            android:layout_marginStart="08dp"
-            android:layout_marginTop="05dp"
-            android:textAllCaps="false"
-            android:textColor="@android:color/holo_red_light"
-            android:textSize="12sp" />
-
-        <EditText
-            android:id="@+id/edt_senha_funcionario"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/borda_edittext"
             android:drawableLeft="@mipmap/ic_cadeado_senha"
-            android:ems="10"
+            android:drawableTint="@color/colorAccent"
+            android:ems="2"
             android:hint="@string/edt_senha_cliente"
             android:inputType="textPassword"
+            android:maxLines="1"
             android:textColor="@color/colorPrimaryDark"
-            android:textColorHint="@color/colorAccent"
-            tools:ignore="RtlHardcoded,TextFields,UnusedAttribute" />
+            android:textColorHint="@color/colorAccent" />
 
         <TextView
             android:id="@+id/txt_senha"
@@ -101,21 +77,22 @@
             android:textSize="12sp" />
 
         <EditText
-            android:id="@+id/edt_senha_confir"
-            android:layout_width="match_parent"
+            android:id="@+id/ed_senha_confimar_cadastrar"
+            android:layout_width="fill_parent"
             android:layout_height="50dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="10dp"
             android:background="@drawable/borda_edittext"
             android:drawableLeft="@mipmap/ic_cadeado_senha"
-            android:ems="10"
+            android:drawableTint="@color/colorAccent"
+            android:ems="2"
             android:hint="@string/ed_confirm_senha"
             android:inputType="textPassword"
+            android:maxLines="1"
             android:textColor="@color/colorPrimaryDark"
-            android:textColorHint="@color/colorAccent"
-            tools:ignore="RtlHardcoded,TextFields,UnusedAttribute" />
+            android:textColorHint="@color/colorAccent" />
 
         <TextView
-            android:id="@+id/txt_senha_confirm"
+            android:id="@+id/txt_confirmar_senha"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="05dp"
@@ -126,7 +103,7 @@
             android:textSize="12sp" />
 
         <Button
-            android:id="@+id/bt_cadastrar"
+            android:id="@+id/btn_cadastro"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:background="@drawable/inactive_button"

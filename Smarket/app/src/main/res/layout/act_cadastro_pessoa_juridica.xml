@@ -55,7 +55,7 @@
                     android:visibility="gone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignEnd="@+id/level_um_down"
+                    android:layout_alignStart="@+id/level_um_down"
                     android:layout_centerVertical="true"
                     app:srcCompat="@mipmap/ic_concluido" />
 
@@ -120,11 +120,11 @@
 
                 <ImageView
                     android:id="@+id/concluido_dois"
-                    android:visibility="gone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignEnd="@+id/level_dois_down"
+                    android:layout_alignStart="@+id/level_dois_down"
                     android:layout_centerVertical="true"
+                    android:visibility="gone"
                     app:srcCompat="@mipmap/ic_concluido" />
 
 

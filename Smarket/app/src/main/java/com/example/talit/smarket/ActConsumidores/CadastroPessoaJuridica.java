@@ -46,6 +46,7 @@ public class CadastroPessoaJuridica extends AppCompatActivity {
     private RelativeLayout relativeLeveltres;
     private Animation direitaParaEsquerda;
     private Animation deBaixoParaCima;
+    private Animation direitaParaEsquerdaLogin;
     private EditText edtNomeFantasia;
     private EditText edtRazaoSocial;
     private EditText edtTelefone;
@@ -126,6 +127,7 @@ public class CadastroPessoaJuridica extends AppCompatActivity {
 
         direitaParaEsquerda = AnimationUtils.loadAnimation(this,R.anim.da_direita_para_esquerda);
         deBaixoParaCima = AnimationUtils.loadAnimation(this,R.anim.para_cima);
+        direitaParaEsquerdaLogin = AnimationUtils.loadAnimation(this,R.anim.da_direita_para_esquerda);
 
         haNomeFantasia = false;
         haRazaoSocial= false;
@@ -484,7 +486,7 @@ public class CadastroPessoaJuridica extends AppCompatActivity {
                 relativeLevelDois.setAnimation(deBaixoParaCima);
                 txtLevelDois.setText(null);
                 imageDois.setVisibility(View.VISIBLE);
-                dadosLogin.setAnimation(direitaParaEsquerda);
+                dadosLogin.setAnimation(direitaParaEsquerdaLogin);
             }
         });
         btnCadastrar.setOnClickListener(new View.OnClickListener() {
@@ -499,15 +501,15 @@ public class CadastroPessoaJuridica extends AppCompatActivity {
                 !TextUtils.isEmpty(edtConfirmSenha.getText().toString())){
             if(!haEmail && !haSenha && !haConfirmSenha){
                 Validacoes.requestFocus(btnCadastrar);
-                btnCadastrar.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+                btnCadastrar.setBackground(getResources().getDrawable(R.drawable.bordas_grid_buttons));
                 btnCadastrar.setEnabled(true);
             }else{
-                btnCadastrar.setBackgroundColor(getResources().getColor(R.color.colorAccentTransparent));
+                btnCadastrar.setBackground(getResources().getDrawable(R.drawable.inactive_button));
                 btnCadastrar.setEnabled(false);
             }
 
         }else{
-            btnCadastrar.setBackgroundColor(getResources().getColor(R.color.colorAccentTransparent));
+            btnCadastrar.setBackground(getResources().getDrawable(R.drawable.inactive_button));
             btnCadastrar.setEnabled(false);
         }
     }
@@ -516,15 +518,15 @@ public class CadastroPessoaJuridica extends AppCompatActivity {
                 !TextUtils.isEmpty(edtCpf.getText().toString())){
             if(!haNomeFunc && !haSobrenomeFunc && !haCpfFunc){
                 Validacoes.requestFocus(btnLevelTres);
-                btnLevelTres.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+                btnLevelTres.setBackground(getResources().getDrawable(R.drawable.bordas_grid_buttons));
                 btnLevelTres.setEnabled(true);
             }else{
-                btnLevelTres.setBackgroundColor(getResources().getColor(R.color.colorAccentTransparent));
+                btnLevelTres.setBackground(getResources().getDrawable(R.drawable.inactive_button));
                 btnLevelTres.setEnabled(false);
             }
 
         }else{
-            btnLevelTres.setBackgroundColor(getResources().getColor(R.color.colorAccentTransparent));
+            btnLevelTres.setBackground(getResources().getDrawable(R.drawable.inactive_button));
             btnLevelTres.setEnabled(false);
         }
     }
@@ -534,14 +536,14 @@ public class CadastroPessoaJuridica extends AppCompatActivity {
 
             if(!haNomeFantasia && !haRazaoSocial && !haTelefone && !haCnpj){
                 Validacoes.requestFocus(imgLevelDois);
-                imgLevelDois.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+                imgLevelDois.setBackground(getResources().getDrawable(R.drawable.bordas_grid_buttons));
                 imgLevelDois.setEnabled(true);
             }else{
-                imgLevelDois.setBackgroundColor(getResources().getColor(R.color.colorAccentTransparent));
+                imgLevelDois.setBackground(getResources().getDrawable(R.drawable.inactive_button));
                 imgLevelDois.setEnabled(false);
             }
         }else{
-            imgLevelDois.setBackgroundColor(getResources().getColor(R.color.colorAccentTransparent));
+            imgLevelDois.setBackground(getResources().getDrawable(R.drawable.inactive_button));
             imgLevelDois.setEnabled(false);
         }
     }

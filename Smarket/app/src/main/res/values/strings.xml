@@ -71,6 +71,7 @@
     <string name="txt_valida_cnpj">CNPJ Inválido!</string>
     <string name="txt_solicia_pj">Dados da Empresa</string>
     <string name="txt_solicia_func">Dados do Funcionário</string>
+    <string name="txt_dados_pessoais">Dados Pessoais</string>
     <string name="txt_solicia_login">Dados para Login</string>
     <string name="btn_prosseguir">Próximo</string>
 </resources>
