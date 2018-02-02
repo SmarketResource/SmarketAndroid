@@ -49,6 +49,7 @@ public class Validacoes {
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         if (netInfo != null && netInfo.isConnected()) {
             return true;
+
         } else {
             return false;
         }

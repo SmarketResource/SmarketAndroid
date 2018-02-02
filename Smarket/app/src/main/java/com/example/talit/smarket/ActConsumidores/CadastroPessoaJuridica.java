@@ -3,28 +3,36 @@ package com.example.talit.smarket.ActConsumidores;
 import android.animation.ObjectAnimator;
 import android.animation.TimeInterpolator;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.media.Image;
 import android.support.v4.view.ViewCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.talit.smarket.Activities.AutenticaUsuario;
+import com.example.talit.smarket.Async.AsyncSaveConsumer;
 import com.example.talit.smarket.R;
 import com.example.talit.smarket.Utils.Validacoes;
 import com.github.rtoshiro.util.format.SimpleMaskFormatter;
@@ -84,6 +92,7 @@ public class CadastroPessoaJuridica extends AppCompatActivity {
     private Button btnCadastrar;
     private ImageView imageUm;
     private ImageView imageDois;
+    private ProgressBar pb;
 
     private static Context c;
     @Override
@@ -91,54 +100,55 @@ public class CadastroPessoaJuridica extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         c = this;
         setContentView(R.layout.act_cadastro_pessoa_juridica);
-        dadosEmpresa = findViewById(R.id.ln_dados_empresa);
-        dadosFuncionario = findViewById(R.id.ln_dados_funcionarios);
-        dadosLogin = findViewById(R.id.ln_dados_login);
-        relativeLevelUm = findViewById(R.id.nivel_um);
-        relativeLevelDois = findViewById(R.id.nivel_dois);
-        relativeLeveltres = findViewById(R.id.nivel_tres);
-        imgLevelDois = findViewById(R.id.bt_level_dois);
-        edtNomeFantasia = findViewById(R.id.edt_nome_fantasia);
-        edtRazaoSocial = findViewById(R.id.ed_razao_social);
-        edtTelefone = findViewById(R.id.ed_telefones);
-        edtCnpj = findViewById(R.id.ed_cnpj);
-        edtNomeFuncionario = findViewById(R.id.edt_nome_funcionario);
-        edtSobrenome = findViewById(R.id.edt_sobrenome_funcionario);
-        edtCpf = findViewById(R.id.ed_cpf_funcionario);
-        edtEmailFunc = findViewById(R.id.edt_user_funcionario);
-        edtSenha = findViewById(R.id.edt_senha_funcionario);
-        edtConfirmSenha = findViewById(R.id.edt_senha_confir);
-        txtLevelUm = findViewById(R.id.level_um_down);
-        txtLevelDois = findViewById(R.id.level_dois_down);
+        dadosEmpresa          = findViewById(R.id.ln_dados_empresa);
+        dadosFuncionario      = findViewById(R.id.ln_dados_funcionarios);
+        dadosLogin            = findViewById(R.id.ln_dados_login);
+        relativeLevelUm       = findViewById(R.id.nivel_um);
+        relativeLevelDois     = findViewById(R.id.nivel_dois);
+        relativeLeveltres     = findViewById(R.id.nivel_tres);
+        imgLevelDois          = findViewById(R.id.bt_level_dois);
+        edtNomeFantasia       = findViewById(R.id.edt_nome_fantasia);
+        edtRazaoSocial        = findViewById(R.id.ed_razao_social);
+        edtTelefone           = findViewById(R.id.ed_telefones);
+        edtCnpj               = findViewById(R.id.ed_cnpj);
+        edtNomeFuncionario    = findViewById(R.id.edt_nome_funcionario);
+        edtSobrenome          = findViewById(R.id.edt_sobrenome_funcionario);
+        edtCpf                = findViewById(R.id.ed_cpf_funcionario);
+        edtEmailFunc          = findViewById(R.id.edt_user_funcionario);
+        edtSenha              = findViewById(R.id.edt_senha_funcionario);
+        edtConfirmSenha       = findViewById(R.id.edt_senha_confir);
+        txtLevelUm            = findViewById(R.id.level_um_down);
+        txtLevelDois          = findViewById(R.id.level_dois_down);
         txtValidaNomeFantasia = findViewById(R.id.txt_nome_fantasia);
-        txtRazaoSocial = findViewById(R.id.txt_razao_social);
-        txtValidaTelefone = findViewById(R.id.txt_telefone);
-        txtValidadCnoj = findViewById(R.id.txt_cnpj);
-        txtValidadeNomeFun = findViewById(R.id.txt_nome_func);
-        txtSobrenomeFunc= findViewById(R.id.txt_sobrenome_func);
-        txtValidaCpf = findViewById(R.id.txt_cpf_func);
-        txtValidaEmail = findViewById(R.id.txt_email);
-        txtValidaSenha = findViewById(R.id.txt_senha);
+        txtRazaoSocial        = findViewById(R.id.txt_razao_social);
+        txtValidaTelefone     = findViewById(R.id.txt_telefone);
+        txtValidadCnoj        = findViewById(R.id.txt_cnpj);
+        txtValidadeNomeFun    = findViewById(R.id.txt_nome_func);
+        txtSobrenomeFunc      = findViewById(R.id.txt_sobrenome_func);
+        txtValidaCpf          = findViewById(R.id.txt_cpf_func);
+        txtValidaEmail        = findViewById(R.id.txt_email);
+        txtValidaSenha        = findViewById(R.id.txt_senha);
         txtValidaConfirmSenha = findViewById(R.id.txt_senha_confirm);
-        imageUm = findViewById(R.id.concluido_um);
-        imageDois = findViewById(R.id.concluido_dois);
-        btnLevelTres = findViewById(R.id.bt_level_tres);
-        btnCadastrar = findViewById(R.id.bt_cadastrar);
+        imageUm               = findViewById(R.id.concluido_um);
+        imageDois             = findViewById(R.id.concluido_dois);
+        btnLevelTres          = findViewById(R.id.bt_level_tres);
+        btnCadastrar          = findViewById(R.id.bt_cadastrar);
+        pb                    = findViewById(R.id.pb_cadastro);
 
-        direitaParaEsquerda = AnimationUtils.loadAnimation(this,R.anim.da_direita_para_esquerda);
-        deBaixoParaCima = AnimationUtils.loadAnimation(this,R.anim.para_cima);
+        direitaParaEsquerda      = AnimationUtils.loadAnimation(this,R.anim.da_direita_para_esquerda);
+        deBaixoParaCima          = AnimationUtils.loadAnimation(this,R.anim.para_cima);
         direitaParaEsquerdaLogin = AnimationUtils.loadAnimation(this,R.anim.da_direita_para_esquerda);
 
-        haNomeFantasia = false;
-        haRazaoSocial= false;
-        haTelefone = false;
-        haCnpj = false;
-        haNomeFunc = false;
+        haNomeFantasia  = false;
+        haRazaoSocial   = false;
+        haTelefone      = false;
+        haCnpj          = false;
+        haNomeFunc      = false;
         haSobrenomeFunc = false;
-        haCpfFunc = false;
-        haEmail= false;
-        haSenha = false;
-        haConfirmSenha = false;
+        haCpfFunc       = false;
+        haEmail         = false;
+        haSenha         = false;
+        haConfirmSenha  = false;
 
         smf = new SimpleMaskFormatter("(NN)NNNN-NNNN");
         mtw = new MaskTextWatcher(edtTelefone, smf);
@@ -492,7 +502,7 @@ public class CadastroPessoaJuridica extends AppCompatActivity {
         btnCadastrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                verificaEntradas();
             }
         });
     }
@@ -545,6 +555,113 @@ public class CadastroPessoaJuridica extends AppCompatActivity {
         }else{
             imgLevelDois.setBackground(getResources().getDrawable(R.drawable.inactive_button));
             imgLevelDois.setEnabled(false);
+        }
+    }
+    public void verificaEntradas() {
+
+        if(!haNomeFantasia && !haRazaoSocial && !haTelefone && !haCnpj && !haNomeFunc && !haSobrenomeFunc
+                && !haCpfFunc && !haEmail && !haSenha && !haConfirmSenha) {
+
+            if (!TextUtils.isEmpty(edtNomeFantasia.getText().toString()) &&
+                    !TextUtils.isEmpty(edtRazaoSocial.getText().toString()) &&
+                    !TextUtils.isEmpty(edtTelefone.getText().toString()) &&
+                    !TextUtils.isEmpty(edtCnpj.getText().toString()) &&
+                    !TextUtils.isEmpty(edtNomeFuncionario.getText().toString())
+                    && !TextUtils.isEmpty(edtSobrenome.getText().toString()) &&
+                    !TextUtils.isEmpty(edtCpf.getText().toString())&&
+                    !TextUtils.isEmpty(edtEmailFunc.getText().toString()) &&
+                    !TextUtils.isEmpty(edtSenha.getText().toString())) {
+
+                if (Validacoes.verifyConnection(CadastroPessoaJuridica.this)) {
+
+                    LayoutInflater inflater = getLayoutInflater();
+                    final View alertLayout = inflater.inflate(R.layout.custom_alerta_dialog_termos, null);
+                    final CheckBox aceitar = alertLayout.findViewById(R.id.check_aceito);
+                    Button cancelar = alertLayout.findViewById(R.id.cancelar);
+                    Button continuar = alertLayout.findViewById(R.id.btn_continuar);
+                    AlertDialog.Builder alerta = new AlertDialog.Builder(CadastroPessoaJuridica.this);
+                    alerta.setView(alertLayout);
+                    alerta.setCancelable(false);
+                    final AlertDialog dialogo = alerta.create();
+                    dialogo.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                    dialogo.show();
+                    continuar.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (aceitar.isChecked()) {
+                                pb.setVisibility(View.VISIBLE);
+                                String telefoneCompleto = edtTelefone.getText().toString().replace("(", "").replace(")", "").replace("-", "");
+
+                                String dd = telefoneCompleto.substring(0, 2);
+                                String telefone = telefoneCompleto.substring(2, telefoneCompleto.length());
+
+                                dialogo.dismiss();
+
+                            } else {
+                                AlertDialog.Builder builder = new AlertDialog.Builder(CadastroPessoaJuridica.this);
+                                builder.setTitle(R.string.txt_aviso);
+                                builder.setMessage(R.string.txt_aceite_os_termos);
+                                builder.setPositiveButton(R.string.txt_fechar, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                });
+                                builder.setCancelable(false);
+                                builder.show();
+                            }
+
+                        }
+
+                    });
+                    cancelar.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialogo.dismiss();
+                        }
+
+                    });
+
+                } else {
+                    android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(CadastroPessoaJuridica.this);
+                    builder.setTitle(R.string.txt_verifica_conexao);
+                    builder.setMessage(R.string.txt_verifica_conexao_tentar);
+                    builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                    builder.setCancelable(false);
+                    builder.show();
+                }
+
+            } else {
+                android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(CadastroPessoaJuridica.this);
+                builder.setTitle(R.string.txt_dados_ent_invalidos);
+                builder.setMessage(R.string.txt_dados_dig_corretos);
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                builder.setCancelable(false);
+                builder.show();
+
+            }
+        }else{
+            android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(CadastroPessoaJuridica.this);
+            builder.setTitle(R.string.txt_dados_ent_invalidos);
+            builder.setMessage(R.string.txt_dados_dig_corretos);
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            builder.setCancelable(false);
+            builder.show();
         }
     }
     @Override

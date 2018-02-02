@@ -74,4 +74,8 @@
     <string name="txt_dados_pessoais">Dados Pessoais</string>
     <string name="txt_solicia_login">Dados para Login</string>
     <string name="btn_prosseguir">Próximo</string>
+    <string name="valida_usuario_existente">Usuário e/ou Senha inválidos</string>
+    <string name="valida_cadastro_sucesso">Cadastro realizado com sucesso! Verifique seu email e confirme seu acesso.</string>
+    <string name="txt_sucesso">Sucesso</string>
+    <string name="valida_cadastro_falha">Ocorreu um erro ao tentar cadastrar os dados. Por favor tente novamente.</string>
 </resources>

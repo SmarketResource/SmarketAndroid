@@ -2,6 +2,7 @@ package com.example.talit.smarket.ActConsumidores;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AlertDialog;
@@ -29,12 +30,13 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.talit.smarket.Activities.AutenticaUsuario;
+import com.example.talit.smarket.Async.AsyncSaveConsumer;
 import com.example.talit.smarket.R;
 import com.example.talit.smarket.Utils.Validacoes;
 import com.github.rtoshiro.util.format.SimpleMaskFormatter;
 import com.github.rtoshiro.util.format.text.MaskTextWatcher;
 
-public class CadastroPessoaFisica extends AppCompatActivity {
+public class CadastroPessoaFisica extends AppCompatActivity implements AsyncSaveConsumer.Listener {
 
     private MaskTextWatcher mtw;
     private SimpleMaskFormatter smf;
@@ -80,56 +82,60 @@ public class CadastroPessoaFisica extends AppCompatActivity {
     private ImageView imageDois;
     private TextView txtLevelUm;
     private TextView txtLevelDois;
-
+    public static final String TOKEN = "TOKEN";
+    private String tokenUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_cadastro_pessoa_fisica);
 
-        edtNome = findViewById(R.id.ed_nome);
-        edtSobrenome = findViewById(R.id.ed_sobrenome);
-        edtEmail = findViewById(R.id.ed_email_consumidor);
-        edtSenha = findViewById(R.id.ed_senha_cadastrar);
-        edtConfirSenha = findViewById(R.id.ed_senha_confimar_cadastrar);
-        edtTel = findViewById(R.id.ed_telefones);
-        btnCadastrar = findViewById(R.id.btn_cadastro);
-        pb = findViewById(R.id.pb_cadastro);
-        smp = findViewById(R.id.sp_tp_tel);
-        txtValidaNome = findViewById(R.id.txt_nome);
-        txtValidaSobreNome = findViewById(R.id.txt_sobrenome);
-        txtValidaEmail = findViewById(R.id.txt_email);
-        txtValidaTelefone = findViewById(R.id.txt_telefone);
-        txtValidaSenha = findViewById(R.id.txt_senha);
+        edtNome              = findViewById(R.id.ed_nome);
+        edtSobrenome         = findViewById(R.id.ed_sobrenome);
+        edtEmail             = findViewById(R.id.ed_email_consumidor);
+        edtSenha             = findViewById(R.id.ed_senha_cadastrar);
+        edtConfirSenha       = findViewById(R.id.ed_senha_confimar_cadastrar);
+        edtTel               = findViewById(R.id.ed_telefones);
+        btnCadastrar         = findViewById(R.id.btn_cadastro);
+        pb                   = findViewById(R.id.pb_cadastro);
+        smp                  = findViewById(R.id.sp_tp_tel);
+        txtValidaNome        = findViewById(R.id.txt_nome);
+        txtValidaSobreNome   = findViewById(R.id.txt_sobrenome);
+        txtValidaEmail       = findViewById(R.id.txt_email);
+        txtValidaTelefone    = findViewById(R.id.txt_telefone);
+        txtValidaSenha       = findViewById(R.id.txt_senha);
         txtValidaConfirSenha = findViewById(R.id.txt_confirmar_senha);
-        btnLevelUm = findViewById(R.id.bt_level_um);
-        lnDadosConsumidor = findViewById(R.id.ln_dados_consumidor);
-        lnDadosSenhaCons = findViewById(R.id.ln_dados_senha);
-        relativeLevelUm = findViewById(R.id.nivel_um);
-        relativeLevelDois = findViewById(R.id.nivel_dois);
-        imageUm = findViewById(R.id.concluido_um);
-        imageDois = findViewById(R.id.concluido_dois);
-        txtLevelUm = findViewById(R.id.level_um_down);
-        txtLevelDois = findViewById(R.id.level_dois_down);
+        btnLevelUm           = findViewById(R.id.bt_level_um);
+        lnDadosConsumidor    = findViewById(R.id.ln_dados_consumidor);
+        lnDadosSenhaCons     = findViewById(R.id.ln_dados_senha);
+        relativeLevelUm      = findViewById(R.id.nivel_um);
+        relativeLevelDois    = findViewById(R.id.nivel_dois);
+        imageUm              = findViewById(R.id.concluido_um);
+        imageDois            = findViewById(R.id.concluido_dois);
+        txtLevelUm           = findViewById(R.id.level_um_down);
+        txtLevelDois         = findViewById(R.id.level_dois_down);
+
+        SharedPreferences prefs = getSharedPreferences(TOKEN, MODE_PRIVATE);
+        tokenUser = prefs.getString("token", null);
 
         direitaParaEsquerda = AnimationUtils.loadAnimation(this,R.anim.da_direita_para_esquerda);
-        deBaixoParaCima = AnimationUtils.loadAnimation(this,R.anim.para_cima);
+        deBaixoParaCima     = AnimationUtils.loadAnimation(this,R.anim.para_cima);
 
         tpTel = new String[]{getString(R.string.smp_desc_telefone), getString(R.string.smp_desc_celular)};
-        adp = new ArrayAdapter<String>(this, R.layout.custom_textview_to_spinner, tpTel);
+        adp   = new ArrayAdapter<String>(this, R.layout.custom_textview_to_spinner, tpTel);
 
         adp.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         smp.setAdapter(adp);
 
         pb.setVisibility(View.INVISIBLE);
 
-        esTel = "";
-        haCpf = false;
-        haNome = false;
-        haSobrenome = false;
-        haEmail = false;
-        haTelefone = false;
-        haSenha = false;
+        esTel            = "";
+        haCpf            = false;
+        haNome           = false;
+        haSobrenome      = false;
+        haEmail          = false;
+        haTelefone       = false;
+        haSenha          = false;
         haConfirmarsenha = false;
 
         smf = new SimpleMaskFormatter("(NN)NNNNN-NNNN");
@@ -387,6 +393,7 @@ public class CadastroPessoaFisica extends AppCompatActivity {
     }
 
     public void validaCadastro(){
+
         if(!TextUtils.isEmpty(edtSenha.getText().toString())&&
                 !TextUtils.isEmpty(edtConfirSenha.getText().toString())){
             if(!haSenha && !haConfirmarsenha){
@@ -453,7 +460,12 @@ public class CadastroPessoaFisica extends AppCompatActivity {
 
                                 String dd = telefoneCompleto.substring(0, 2);
                                 String telefone = telefoneCompleto.substring(2, telefoneCompleto.length());
-                                // chamar a api aqui
+
+                                AsyncSaveConsumer connSaveConsumidor = new AsyncSaveConsumer(CadastroPessoaFisica.this);
+                                connSaveConsumidor.execute("Basic " +tokenUser,edtEmail.getText().toString().trim(),edtSenha.getText().toString().trim(),
+                                                            edtNome.getText().toString().trim(),edtSobrenome.getText().toString().trim(),
+                                                            String.format("%d", idTelefone),dd,telefone);
+
                                 dialogo.dismiss();
 
                             } else {
@@ -544,4 +556,58 @@ public class CadastroPessoaFisica extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    public void onLoaded(String string, String msg) {
+        pb.setVisibility(View.INVISIBLE);
+        if (Validacoes.verifyConnection(CadastroPessoaFisica.this)) {
+
+            if (string.equalsIgnoreCase("true")) {
+
+                android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(CadastroPessoaFisica.this);
+                builder.setTitle(R.string.txt_sucesso);
+                builder.setMessage(R.string.valida_cadastro_sucesso);
+                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        startActivity(new Intent(CadastroPessoaFisica.this, AutenticaUsuario.class));
+                        finish();
+
+                    }
+                });
+                builder.setCancelable(false);
+                builder.show();
+
+            }else {
+                android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(CadastroPessoaFisica.this);
+                builder.setTitle(R.string.txt_aviso);
+                builder.setMessage(R.string.valida_cadastro_falha);
+                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        startActivity(new Intent(CadastroPessoaFisica.this, AutenticaUsuario.class));
+                        finish();
+
+                    }
+                });
+                builder.setCancelable(false);
+                builder.show();
+            }
+        } else {
+            android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(CadastroPessoaFisica.this);
+            builder.setTitle(R.string.txt_verifica_conexao);
+            builder.setMessage(R.string.txt_verifica_conexao_tentar);
+            builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                    startActivity(new Intent(CadastroPessoaFisica.this, AutenticaUsuario.class));
+                    finish();
+                }
+            });
+            builder.setCancelable(false);
+            builder.show();
+        }
+    }
 }

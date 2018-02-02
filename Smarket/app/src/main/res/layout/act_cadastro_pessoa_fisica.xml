@@ -114,7 +114,7 @@
                     android:layout_marginTop="23dp"
                     android:gravity="center"
                     android:layout_toEndOf="@+id/level_dois_down"
-                    android:text="@string/txt_solicia_func"
+                    android:text="@string/txt_solicia_login"
                     android:textColor="#ffff"
                     android:textSize="18dp"
                     tools:ignore="HardcodedText,SpUsage" />

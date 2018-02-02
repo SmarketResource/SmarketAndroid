@@ -54,11 +54,11 @@ public class WelcomeScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_welcome_screen);
 
-        viewPager = findViewById(R.id.view_pager);
+        viewPager  = findViewById(R.id.view_pager);
         dotsLayout = findViewById(R.id.layoutDots);
-        btnSkip = findViewById(R.id.btn_skip);
-        btnNext = findViewById(R.id.btn_next);
-        imaLayout = findViewById(R.id.layoutImage);
+        btnSkip    = findViewById(R.id.btn_skip);
+        btnNext    = findViewById(R.id.btn_next);
+        imaLayout  = findViewById(R.id.layoutImage);
 
         layouts = new int[]{
                 R.layout.fragment_introducao_um,
@@ -233,10 +233,10 @@ public class WelcomeScreen extends AppCompatActivity {
         LayoutInflater inflater = getLayoutInflater();
         final View alertLayout = inflater.inflate(R.layout.custom_alerta_dialog_idiomas, null);
         final RelativeLayout portugues = alertLayout.findViewById(R.id.portugues);
-        final RelativeLayout espanhol = alertLayout.findViewById(R.id.espanhol);
-        final RelativeLayout frances = alertLayout.findViewById(R.id.frances);
-        final RelativeLayout ingles =  alertLayout.findViewById(R.id.ingles);
-        Button cancelar = alertLayout.findViewById(R.id.cancelar);
+        final RelativeLayout espanhol  = alertLayout.findViewById(R.id.espanhol);
+        final RelativeLayout frances   = alertLayout.findViewById(R.id.frances);
+        final RelativeLayout ingles    = alertLayout.findViewById(R.id.ingles);
+        Button cancelar                = alertLayout.findViewById(R.id.cancelar);
 
         AlertDialog.Builder alerta = new AlertDialog.Builder(WelcomeScreen.this);
         alerta.setView(alertLayout);
