@@ -12,4 +12,5 @@ public class PaginaInicialConsumidor extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_pagina_inicial_consumidor);
     }
+
 }
