@@ -3,6 +3,7 @@ package com.example.talit.smarket.Activities;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -25,8 +26,19 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import me.drakeet.materialdialog.MaterialDialog;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
+import com.example.talit.smarket.ActConsumers.PaginaInicialConsumidor;
+import com.example.talit.smarket.LogicalView.Token;
 import com.example.talit.smarket.R;
+import com.example.talit.smarket.Retrofit.GeneratedToken;
+import com.example.talit.smarket.Sqlite.DbConn;
+import com.example.talit.smarket.Utils.Validacoes;
 
 public class WelcomeScreen extends AppCompatActivity {
 
@@ -36,17 +48,33 @@ public class WelcomeScreen extends AppCompatActivity {
     private TextView[] dots;
     private int[] layouts;
     private ImageButton btnSkip, btnNext;
-    //private DbConn dbconn;
+    private DbConn dbconn;
     public static Activity act;
     private static ImageView m2;
     private LinearLayout imaLayout;
     public static final String TAG = "LOG";
     public static final int REQUEST_PERMISSIONS_CODE = 128;
     private MaterialDialog mMaterialDialog;
+    private Retrofit retrofit;
+    HttpLoggingInterceptor logging;
+
 
     @Override
     protected void onResume() {
         super.onResume();
+        dbconn = new DbConn(WelcomeScreen.this);
+
+        if (dbconn.selectConsumidor() != null) {
+
+                if(dbconn.selectConsumidor().getTypeUser().equals("2") || dbconn.selectConsumidor().getTypeUser().equals("3")) {
+                    Intent intent = new Intent(this, PaginaInicialConsumidor.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                    startActivity(intent);
+                    finish();
+                }
+
+        }
+
     }
 
     @Override
@@ -59,6 +87,19 @@ public class WelcomeScreen extends AppCompatActivity {
         btnSkip    = findViewById(R.id.btn_skip);
         btnNext    = findViewById(R.id.btn_next);
         imaLayout  = findViewById(R.id.layoutImage);
+
+        if(Validacoes.verifyConnection(WelcomeScreen.this)) {
+            logging = new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY);
+            OkHttpClient.Builder httpClient = new OkHttpClient.Builder().addInterceptor(logging);
+
+            retrofit = Validacoes.getRetrofitProprieties("https://smarketapi.azurewebsites.net/API/Login/",httpClient);
+            solicitarToken();
+
+        }else{
+            Validacoes.alertDialogWarning(WelcomeScreen.this,getString(R.string.txt_verifica_conexao_tentar),
+                    getString(R.string.txt_verifica_conexao),R.drawable.ic_public_black_24dp);
+
+        }
 
         layouts = new int[]{
                 R.layout.fragment_introducao_um,
@@ -305,6 +346,32 @@ public class WelcomeScreen extends AppCompatActivity {
         });
     }
 
+    private void solicitarToken() {
+
+        GeneratedToken service = retrofit.create(GeneratedToken.class);
+        Call<Token> call = service.getToken();
+        call.enqueue(new Callback<Token>() {
+            @Override
+            public void onResponse(Call<Token> call, Response<Token> response) {
+                if (response.isSuccessful()) {
+                    Token token = response.body();
+                    SharedPreferences.Editor editor = getSharedPreferences("TOKEN", MODE_PRIVATE).edit();
+                    editor.putString("token", token.getToken());
+                    editor.commit();
+                    Log.i("token",token.getToken());
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Token> call, Throwable t) {
+                Validacoes.alertDialogWarning(WelcomeScreen.this,getString(R.string.txt_erro_inesperado),
+                        getString(R.string.txt_verifica_conexao),R.drawable.ic_public_black_24dp);
+
+            }
+        });
+
+    }
     @Override
     public void onBackPressed() {
         super.onBackPressed();

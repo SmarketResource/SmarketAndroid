@@ -36,7 +36,7 @@ public class MainAct extends AppCompatActivity  {
     private LinearLayout linearTxt;
     private Animation cimaParaBaixo;
     private Animation baixoParaCima;
-    private Retrofit retrofit;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,31 +52,22 @@ public class MainAct extends AppCompatActivity  {
         baixoParaCima = AnimationUtils.loadAnimation(this,R.anim.de_baixo_para_cima);
         linearTxt.setAnimation(baixoParaCima);
 
-        if(Validacoes.verifyConnection(MainAct.this)) {
-            retrofit = new Retrofit.Builder()
-                    .baseUrl("https://smarketapi.azurewebsites.net/API/Login/")
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build();
+        Thread timerThread = new Thread() {
+            public void run() {
+                try {
+                    sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } finally {
 
-            solicitarToken();
+                    Intent intent = new Intent(MainAct.this, WelcomeScreen.class);
+                    startActivity(intent);
 
-           // AsyncGeneratedToken conn = new AsyncGeneratedToken(MainAct.this);
-           // conn.execute();
-
-        }else{
-            android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(MainAct.this);
-            builder.setTitle(R.string.txt_verifica_conexao);
-            builder.setMessage(R.string.txt_verifica_conexao_tentar);
-            builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                    finish();
                 }
-            });
-            builder.setCancelable(false);
-            builder.show();
-        }
+            }
+        };
+        timerThread.start();
+
     }
     @Override
     protected void onResume() {
@@ -97,98 +88,5 @@ public class MainAct extends AppCompatActivity  {
         finish();
     }
 
-    private void solicitarToken() {
 
-        GeneratedToken service = retrofit.create(GeneratedToken.class);
-
-        Call<Token> call = service.getToken();
-
-        call.enqueue(new Callback<Token>() {
-            @Override
-            public void onResponse(Call<Token> call, Response<Token> response) {
-                if (response.isSuccessful()) {
-                    Token token = response.body();
-                    SharedPreferences.Editor editor = getSharedPreferences("TOKEN", MODE_PRIVATE).edit();
-                    editor.putString("token", token.getToken());
-                    editor.commit();
-
-                    Thread timerThread = new Thread() {
-                        public void run() {
-                            try {
-                                sleep(2000);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            } finally {
-
-                                Intent intent = new Intent(MainAct.this, WelcomeScreen.class);
-                                startActivity(intent);
-
-                            }
-                        }
-                    };
-                    timerThread.start();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Token> call, Throwable t) {
-                android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(MainAct.this);
-                builder.setTitle(R.string.txt_verifica_conexao);
-                builder.setMessage(R.string.txt_erro_inesperado);
-                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        finish();
-                    }
-                });
-                builder.setCancelable(false);
-                builder.show();
-            }
-        });
-
-    }
-
-   /* @Override
-    public void onLoaded(String string, String token) {
-
-        if (Validacoes.verifyConnection(MainAct.this)) {
-
-            if (string.equalsIgnoreCase("true")) {
-                SharedPreferences.Editor editor = getSharedPreferences("TOKEN", MODE_PRIVATE).edit();
-                editor.putString("token", token);
-                editor.commit();
-
-                Thread timerThread = new Thread() {
-                    public void run() {
-                        try {
-                            sleep(2000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        } finally {
-
-                            Intent intent = new Intent(MainAct.this, WelcomeScreen.class);
-                            startActivity(intent);
-
-                        }
-                    }
-                };
-                timerThread.start();
-            }
-
-        }else{
-            android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(MainAct.this);
-            builder.setTitle(R.string.txt_verifica_conexao);
-            builder.setMessage(R.string.txt_verifica_conexao_tentar);
-            builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                    finish();
-                }
-            });
-            builder.setCancelable(false);
-            builder.show();
-        }
-    }*/
 }

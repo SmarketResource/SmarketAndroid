@@ -48,7 +48,7 @@ public class AsyncSaveConsumer extends AsyncTask<String, String, String> {
 
     @Override
     protected String doInBackground(String... n) {
-        String api_url = "https://smarketapi.azurewebsites.net/API/Consumers/SaveConsumer";
+        String api_url = "https://smarketapi.azurewebsites.net/API/Consumers/Consumers";
 
         token = n[0];
         email = n[1];

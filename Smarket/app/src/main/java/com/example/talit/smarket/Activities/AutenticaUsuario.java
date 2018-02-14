@@ -21,12 +21,13 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.example.talit.smarket.ActConsumidores.CadastroPessoaFisica;
-import com.example.talit.smarket.ActConsumidores.CadastroPessoaJuridica;
-import com.example.talit.smarket.ActConsumidores.PaginaInicialConsumidor;
-import com.example.talit.smarket.Async.AsyncAuthUser;
+import com.example.talit.smarket.ActConsumers.CadastroPessoaFisica;
+import com.example.talit.smarket.ActConsumers.CadastroPessoaJuridica;
+import com.example.talit.smarket.ActConsumers.PaginaInicialConsumidor;
 import com.example.talit.smarket.LogicalView.Usuario;
 import com.example.talit.smarket.R;
+import com.example.talit.smarket.Retrofit.SecurityToken;
+import com.example.talit.smarket.Sqlite.DbConn;
 import com.example.talit.smarket.Utils.Validacoes;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -41,7 +42,14 @@ import com.facebook.login.widget.LoginButton;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class AutenticaUsuario extends AppCompatActivity implements AsyncAuthUser.Listener {
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+
+public class AutenticaUsuario extends AppCompatActivity {
 
     private EditText email;
     private EditText senha;
@@ -60,7 +68,9 @@ public class AutenticaUsuario extends AppCompatActivity implements AsyncAuthUser
     public RelativeLayout relativeEmpresa;
     public static final String TOKEN = "TOKEN";
     private String tokenUser;
-
+    private Retrofit retrofit;
+    HttpLoggingInterceptor logging;
+    private DbConn dbconn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +88,7 @@ public class AutenticaUsuario extends AppCompatActivity implements AsyncAuthUser
         lb               = findViewById(R.id.login_button);
 
         pb.setVisibility(View.INVISIBLE);
+        dbconn = new DbConn(AutenticaUsuario.this);
 
         SharedPreferences prefs = getSharedPreferences(TOKEN, MODE_PRIVATE);
         tokenUser = prefs.getString("token", null);
@@ -89,6 +100,16 @@ public class AutenticaUsuario extends AppCompatActivity implements AsyncAuthUser
                 alertaDialogoCadastro();
             }
         });
+
+        if (Validacoes.verifyConnection(AutenticaUsuario.this)) {
+            logging = new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY);
+            OkHttpClient.Builder httpClient = new OkHttpClient.Builder().addInterceptor(logging);
+            retrofit = Validacoes.getRetrofitProprieties("https://smarketapi.azurewebsites.net/",httpClient);
+
+        } else {
+            Validacoes.alertDialogWarning(AutenticaUsuario.this,getString(R.string.txt_verifica_conexao_tentar),
+                    getString(R.string.txt_verifica_conexao),R.drawable.ic_public_black_24dp);
+        }
 
         haEmail = false;
         haSenha = false;
@@ -159,49 +180,22 @@ public class AutenticaUsuario extends AppCompatActivity implements AsyncAuthUser
                     if (!haEmail && !haSenha) {
                         if (!TextUtils.isEmpty(email.getText().toString()) && !TextUtils.isEmpty(senha.getText().toString())) {
                             pb.setVisibility(View.VISIBLE);
-
-                            AsyncAuthUser connAutentica = new AsyncAuthUser(AutenticaUsuario.this);
-                            connAutentica.execute("Basic " + tokenUser, email.getText().toString().trim(), senha.getText().toString().trim());
+                            askAuthorizedData(email.getText().toString().trim(), senha.getText().toString().trim(),"password");
 
                         } else {
-                            android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(AutenticaUsuario.this);
-                            builder.setTitle(R.string.txt_campos_vazios);
-                            builder.setMessage(R.string.txt_insira_dados);
-                            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                }
-                            });
-                            builder.setCancelable(false);
-                            builder.show();
+                            Validacoes.alertDialogWarning(AutenticaUsuario.this,getString(R.string.txt_insira_dados),
+                                    getString(R.string.txt_campos_vazios),R.drawable.ic_error_outline_black_24dp);
                         }
                     } else {
-                        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(AutenticaUsuario.this);
-                        builder.setTitle(R.string.txt_dados_ent_invalidos);
-                        builder.setMessage(R.string.txt_dados_dig_corretos);
-                        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        });
-                        builder.setCancelable(false);
-                        builder.show();
+
+                        Validacoes.alertDialogWarning(AutenticaUsuario.this,getString(R.string.txt_dados_dig_corretos),
+                                getString(R.string.txt_dados_ent_invalidos),R.drawable.ic_error_outline_black_24dp);
+
                     }
 
                 } else {
-                    android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(AutenticaUsuario.this);
-                    builder.setTitle(R.string.txt_verifica_conexao);
-                    builder.setMessage(R.string.txt_verifica_conexao_tentar);
-                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
-                    builder.setCancelable(false);
-                    builder.show();
+                    Validacoes.alertDialogWarning(AutenticaUsuario.this,getString(R.string.txt_verifica_conexao_tentar),
+                            getString(R.string.txt_verifica_conexao),R.drawable.ic_public_black_24dp);
                 }
 
             }
@@ -248,18 +242,8 @@ public class AutenticaUsuario extends AppCompatActivity implements AsyncAuthUser
                     alertaDialogoEsqueceuSenha();
 
                 } else {
-
-                    android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(AutenticaUsuario.this);
-                    builder.setTitle(R.string.txt_verifica_conexao);
-                    builder.setMessage(R.string.txt_verifica_conexao_tentar);
-                    builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
-                    builder.setCancelable(false);
-                    builder.show();
+                    Validacoes.alertDialogWarning(AutenticaUsuario.this,getString(R.string.txt_verifica_conexao_tentar),
+                            getString(R.string.txt_verifica_conexao),R.drawable.ic_public_black_24dp);
                 }
             }
         });
@@ -412,42 +396,35 @@ public class AutenticaUsuario extends AppCompatActivity implements AsyncAuthUser
         return true;
     }
 
-    @Override
-    public void onLoaded(String string, Usuario usuario, String msg) {
-        pb.setVisibility(View.INVISIBLE);
-        if (Validacoes.verifyConnection(AutenticaUsuario.this)) {
+    public void askAuthorizedData(String email, String senha, String grantType) {
 
-            if (string.equalsIgnoreCase("true")) {
-                startActivity(new Intent(this, PaginaInicialConsumidor.class));
-                finish();
+        SecurityToken serviceAuthorized = retrofit.create(SecurityToken.class);
+        Call<Usuario> callUser = serviceAuthorized.getAuthentication(email,senha,grantType);
+        callUser.enqueue(new Callback<Usuario>() {
+            @Override
+            public void onResponse(Call<Usuario> call, Response<Usuario> response) {
 
-            } else if (msg.equals("Usuario e/ou Senha invalidos")) {
-                android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(AutenticaUsuario.this);
-                builder.setTitle(R.string.txt_aviso);
-                builder.setMessage(R.string.valida_usuario_existente);
-                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-
-                    }
-                });
-                builder.setCancelable(false);
-                builder.show();
-            }
-        } else {
-            android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(AutenticaUsuario.this);
-            builder.setTitle(R.string.txt_verifica_conexao);
-            builder.setMessage(R.string.txt_verifica_conexao_tentar);
-            builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
+                if (response.isSuccessful()) {
+                    pb.setVisibility(View.INVISIBLE);
+                    dbconn.insertConsumidor("1",response.body().getAccess_token(),response.body().getTypeUser());
+                    startActivity(new Intent(AutenticaUsuario.this, PaginaInicialConsumidor.class));
                     finish();
+
+                }else{
+                    pb.setVisibility(View.INVISIBLE);
+                    Validacoes.alertDialogWarning(AutenticaUsuario.this,getString(R.string.valida_usuario_existente),
+                            getString(R.string.txt_aviso),R.drawable.ic_error_outline_black_24dp);
                 }
-            });
-            builder.setCancelable(false);
-            builder.show();
-        }
+            }
+
+            @Override
+            public void onFailure(Call<Usuario> call, Throwable t) {
+
+                pb.setVisibility(View.INVISIBLE);
+                Validacoes.alertDialogWarning(AutenticaUsuario.this,getString(R.string.txt_erro_inesperado),
+                        getString(R.string.txt_verifica_conexao),R.drawable.ic_public_black_24dp);
+
+            }
+        });
     }
 }

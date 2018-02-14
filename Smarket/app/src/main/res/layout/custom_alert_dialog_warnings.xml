@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -19,18 +20,27 @@
         tools:ignore="UselessParent">
 
         <TextView
-            android:id="@+id/txt_termos_consumidor"
+            android:id="@+id/txt_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorPrimary"
             android:padding="10dp"
-            android:text="@string/txt_termos_consumidor"
+            android:text="@string/txt_title_warning"
             android:textColor="#ffff"
             tools:textStyle="bold" />
 
 
+        <ImageView
+            android:id="@+id/image_warning"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="16dp"
+            app:srcCompat="@drawable/ic_error_outline_black_24dp"
+            android:tint="@color/colorPrimary"
+            tools:ignore="VectorDrawableCompat" />
+
         <TextView
-            android:id="@+id/txt_termos"
+            android:id="@+id/txt_body"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="3dp"
@@ -38,50 +48,10 @@
             android:layout_marginEnd="05dp"
             android:layout_marginStart="05dp"
             android:gravity="center_horizontal"
-            android:text="@string/norma_cadastro"
+            android:text="@string/txt_body_message"
+            android:layout_marginBottom="16dp"
             tools:ignore="HardcodedText,RtlHardcoded" />
 
-        <TextView
-            android:id="@+id/txt_termos_webView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="3dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="05dp"
-            android:layout_marginStart="05dp"
-            android:gravity="center_horizontal"
-            android:fontFamily="it"
-            android:text="@string/norma_web_view"
-            tools:ignore="HardcodedText,RtlHardcoded" />
-
-
-        <CheckBox
-            android:id="@+id/check_aceito"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="05dp"
-            android:layout_marginTop="10dp"
-            android:text="@string/check_aceito"
-            tools:ignore="RtlHardcoded" />
-
-        <Button
-            android:id="@+id/btn_continuar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="05dp"
-            android:layout_marginEnd="05dp"
-            android:background="@drawable/bordas_grid_buttons"
-            android:text="@string/btn_continuar"
-            android:textColor="#FFF"
-            tools:ignore="RtlHardcoded" />
-
-        <TextView
-            android:id="@+id/textView5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=""
-            tools:ignore="HardcodedText,UnknownIdInLayout" />
 
     </LinearLayout>
 

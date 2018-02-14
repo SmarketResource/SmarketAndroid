@@ -21,7 +21,6 @@
             android:theme="@style/MyTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -61,20 +60,20 @@
             android:screenOrientation="portrait"
             android:theme="@style/MyTheme.NoActionBar" />
         <activity
-            android:name=".ActConsumidores.PaginaInicialConsumidor"
+            android:name=".ActConsumers.PaginaInicialConsumidor"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/MyTheme.NoActionBar" />
         <activity
-            android:name=".ActConsumidores.CadastroPessoaFisica"
+            android:name=".ActConsumers.CadastroPessoaFisica"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/MyTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize"/>
 
-        <activity android:name=".ActConsumidores.CadastroPessoaJuridica"
+        <activity android:name=".ActConsumers.CadastroPessoaJuridica"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_name"
             android:screenOrientation="portrait"

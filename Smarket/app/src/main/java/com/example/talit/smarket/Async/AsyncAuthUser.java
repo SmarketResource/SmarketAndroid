@@ -97,7 +97,7 @@ public class AsyncAuthUser extends AsyncTask<String, String, String> {
     protected void onPostExecute(String result) {
         super.onPostExecute(result);
 
-        try {
+       /* try {
 
             JSONObject api_result = new JSONObject(result);
             String status = api_result.getString("Error");
@@ -127,6 +127,6 @@ public class AsyncAuthUser extends AsyncTask<String, String, String> {
             if (mListener != null) {
                 mListener.onLoaded("false", null, null);
             }
-        }
+        }*/
     }
 }

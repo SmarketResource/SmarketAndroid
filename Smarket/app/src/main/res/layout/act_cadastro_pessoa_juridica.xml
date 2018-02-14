@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/mercado"
     android:orientation="vertical"
-    tools:context="com.example.talit.smarket.ActConsumidores.CadastroPessoaJuridica">
+    tools:context="com.example.talit.smarket.ActConsumers.CadastroPessoaJuridica">
 
     <ScrollView
         android:id="@+id/alterar_dados"

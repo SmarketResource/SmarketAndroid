@@ -1,17 +1,18 @@
-package com.example.talit.smarket.ActConsumidores;
+package com.example.talit.smarket.ActConsumers;
 
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,12 +32,22 @@ import android.widget.TextView;
 
 import com.example.talit.smarket.Activities.AutenticaUsuario;
 import com.example.talit.smarket.Async.AsyncSaveConsumer;
+import com.example.talit.smarket.LogicalView.Consumers;
 import com.example.talit.smarket.R;
+import com.example.talit.smarket.Retrofit.Consumer;
+import com.example.talit.smarket.Retrofit.SecurityToken;
 import com.example.talit.smarket.Utils.Validacoes;
 import com.github.rtoshiro.util.format.SimpleMaskFormatter;
 import com.github.rtoshiro.util.format.text.MaskTextWatcher;
 
-public class CadastroPessoaFisica extends AppCompatActivity implements AsyncSaveConsumer.Listener {
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+
+public class CadastroPessoaFisica extends AppCompatActivity {
 
     private MaskTextWatcher mtw;
     private SimpleMaskFormatter smf;
@@ -84,6 +95,8 @@ public class CadastroPessoaFisica extends AppCompatActivity implements AsyncSave
     private TextView txtLevelDois;
     public static final String TOKEN = "TOKEN";
     private String tokenUser;
+    private Retrofit retrofit;
+    HttpLoggingInterceptor logging;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,6 +155,15 @@ public class CadastroPessoaFisica extends AppCompatActivity implements AsyncSave
         mtw = new MaskTextWatcher(edtTel, smf);
         edtTel.addTextChangedListener(mtw);
 
+        if (Validacoes.verifyConnection(CadastroPessoaFisica.this)) {
+            logging = new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY);
+            OkHttpClient.Builder httpClient = new OkHttpClient.Builder().addInterceptor(logging);
+            retrofit = Validacoes.getRetrofitProprieties("https://smarketapi.azurewebsites.net/api/",httpClient);
+
+        } else {
+            Validacoes.alertDialogWarning(CadastroPessoaFisica.this,getString(R.string.txt_verifica_conexao_tentar),
+                    getString(R.string.txt_verifica_conexao),R.drawable.ic_public_black_24dp);
+        }
 
         edtNome.addTextChangedListener(new TextWatcher() {
             @Override
@@ -443,6 +465,7 @@ public class CadastroPessoaFisica extends AppCompatActivity implements AsyncSave
                     LayoutInflater inflater = getLayoutInflater();
                     final View alertLayout = inflater.inflate(R.layout.custom_alerta_dialog_termos, null);
                     final CheckBox aceitar = alertLayout.findViewById(R.id.check_aceito);
+                    TextView txtWeView = alertLayout.findViewById(R.id.txt_termos_webView);
                     Button cancelar = alertLayout.findViewById(R.id.cancelar);
                     Button continuar = alertLayout.findViewById(R.id.btn_continuar);
                     AlertDialog.Builder alerta = new AlertDialog.Builder(CadastroPessoaFisica.this);
@@ -451,6 +474,15 @@ public class CadastroPessoaFisica extends AppCompatActivity implements AsyncSave
                     final AlertDialog dialogo = alerta.create();
                     dialogo.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                     dialogo.show();
+                    txtWeView.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
+                    txtWeView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent browserIntent = new Intent(Intent.ACTION_VIEW);
+                            browserIntent.setData(Uri.parse("http://www.google.com"));
+                            startActivity(browserIntent);
+                        }
+                    });
                     continuar.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -461,25 +493,17 @@ public class CadastroPessoaFisica extends AppCompatActivity implements AsyncSave
                                 String dd = telefoneCompleto.substring(0, 2);
                                 String telefone = telefoneCompleto.substring(2, telefoneCompleto.length());
 
-                                AsyncSaveConsumer connSaveConsumidor = new AsyncSaveConsumer(CadastroPessoaFisica.this);
-                                connSaveConsumidor.execute("Basic " +tokenUser,edtEmail.getText().toString().trim(),edtSenha.getText().toString().trim(),
-                                                            edtNome.getText().toString().trim(),edtSobrenome.getText().toString().trim(),
-                                                            String.format("%d", idTelefone),dd,telefone);
+                                saveConsumer("Basic " +tokenUser,edtEmail.getText().toString().trim(),edtSenha.getText().toString().trim(),
+                                        edtNome.getText().toString().trim(),edtSobrenome.getText().toString().trim(),
+                                         idTelefone,dd,telefone);
 
                                 dialogo.dismiss();
 
                             } else {
-                                AlertDialog.Builder builder = new AlertDialog.Builder(CadastroPessoaFisica.this);
-                                builder.setTitle(R.string.txt_aviso);
-                                builder.setMessage(R.string.txt_aceite_os_termos);
-                                builder.setPositiveButton(R.string.txt_fechar, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-                                    }
-                                });
-                                builder.setCancelable(false);
-                                builder.show();
+
+                                Validacoes.alertDialogWarning(CadastroPessoaFisica.this,getString(R.string.txt_aceite_os_termos),
+                                        getString(R.string.txt_aviso),R.drawable.ic_error_outline_black_24dp);
+
                             }
 
                         }
@@ -494,45 +518,20 @@ public class CadastroPessoaFisica extends AppCompatActivity implements AsyncSave
                     });
 
                 } else {
-                    android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(CadastroPessoaFisica.this);
-                    builder.setTitle(R.string.txt_verifica_conexao);
-                    builder.setMessage(R.string.txt_verifica_conexao_tentar);
-                    builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
-                    builder.setCancelable(false);
-                    builder.show();
+
+                    Validacoes.alertDialogWarning(CadastroPessoaFisica.this,getString(R.string.txt_verifica_conexao_tentar),
+                            getString(R.string.txt_verifica_conexao),R.drawable.ic_public_black_24dp);
+
                 }
 
             } else {
-                android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(CadastroPessoaFisica.this);
-                builder.setTitle(R.string.txt_dados_ent_invalidos);
-                builder.setMessage(R.string.txt_dados_dig_corretos);
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-                builder.setCancelable(false);
-                builder.show();
 
+                Validacoes.alertDialogWarning(CadastroPessoaFisica.this,getString(R.string.txt_dados_dig_corretos),
+                        getString(R.string.txt_dados_ent_invalidos),R.drawable.ic_error_outline_black_24dp);
             }
         }else{
-            android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(CadastroPessoaFisica.this);
-            builder.setTitle(R.string.txt_dados_ent_invalidos);
-            builder.setMessage(R.string.txt_dados_dig_corretos);
-            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            });
-            builder.setCancelable(false);
-            builder.show();
+            Validacoes.alertDialogWarning(CadastroPessoaFisica.this,getString(R.string.txt_dados_dig_corretos),
+                    getString(R.string.txt_dados_ent_invalidos),R.drawable.ic_error_outline_black_24dp);
         }
     }
 
@@ -556,58 +555,35 @@ public class CadastroPessoaFisica extends AppCompatActivity implements AsyncSave
         return true;
     }
 
-    @Override
-    public void onLoaded(String string, String msg) {
-        pb.setVisibility(View.INVISIBLE);
-        if (Validacoes.verifyConnection(CadastroPessoaFisica.this)) {
+    public void saveConsumer(String tokenUser, String userLogin, String userPass, String name, String lastName, int typePhone, String areaCode, String phoneNumber){
 
-            if (string.equalsIgnoreCase("true")) {
+        Consumer consumer = retrofit.create(Consumer.class);
+        Call<Consumers> callUser = consumer.saveConsumer("application/x-www-form-urlencoded","application/json",tokenUser, userLogin,userPass,name,lastName,typePhone,areaCode,phoneNumber);
+        callUser.enqueue(new Callback<Consumers>() {
+            @Override
+            public void onResponse(Call<Consumers> call, Response<Consumers> response) {
 
-                android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(CadastroPessoaFisica.this);
-                builder.setTitle(R.string.txt_sucesso);
-                builder.setMessage(R.string.valida_cadastro_sucesso);
-                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        startActivity(new Intent(CadastroPessoaFisica.this, AutenticaUsuario.class));
-                        finish();
+                if (response.isSuccessful()) {
+                    pb.setVisibility(View.INVISIBLE);
+                    Validacoes.alertDialogWarning(CadastroPessoaFisica.this,getString(R.string.valida_cadastro_sucesso),
+                            getString(R.string.txt_sucesso),R.drawable.ic_mail_outline_black_24dp);
 
-                    }
-                });
-                builder.setCancelable(false);
-                builder.show();
+                }else{
+                    pb.setVisibility(View.INVISIBLE);
+                    Validacoes.alertDialogWarning(CadastroPessoaFisica.this,getString(R.string.valida_cadastro_falha),
+                            getString(R.string.txt_aviso),R.drawable.ic_error_outline_black_24dp);
 
-            }else {
-                android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(CadastroPessoaFisica.this);
-                builder.setTitle(R.string.txt_aviso);
-                builder.setMessage(R.string.valida_cadastro_falha);
-                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        startActivity(new Intent(CadastroPessoaFisica.this, AutenticaUsuario.class));
-                        finish();
-
-                    }
-                });
-                builder.setCancelable(false);
-                builder.show();
-            }
-        } else {
-            android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(CadastroPessoaFisica.this);
-            builder.setTitle(R.string.txt_verifica_conexao);
-            builder.setMessage(R.string.txt_verifica_conexao_tentar);
-            builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                    startActivity(new Intent(CadastroPessoaFisica.this, AutenticaUsuario.class));
-                    finish();
                 }
-            });
-            builder.setCancelable(false);
-            builder.show();
-        }
+            }
+
+            @Override
+            public void onFailure(Call<Consumers> call, Throwable t) {
+
+                pb.setVisibility(View.INVISIBLE);
+                Validacoes.alertDialogWarning(CadastroPessoaFisica.this,getString(R.string.txt_erro_inesperado),
+                        getString(R.string.txt_verifica_conexao),R.drawable.ic_public_black_24dp);
+
+            }
+        });
     }
 }

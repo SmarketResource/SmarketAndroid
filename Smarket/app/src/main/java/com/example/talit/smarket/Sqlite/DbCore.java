@@ -11,14 +11,14 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DbCore extends SQLiteOpenHelper {
 
     private static final String DB_NAME = "SMARKET";
-    private static final int DB_VERSION = 1;
+    private static final int DB_VERSION = 3;
 
     public DbCore(Context c){
         super(c,DB_NAME,null,DB_VERSION);
     }
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table consumidor(id_cons text,status integer,tp_acesso integer)");
+        db.execSQL("create table consumidor(id_cons text,access_token text,tp_acesso text)");
         db.execSQL("create table searchview(id_hist integer primary key autoincrement, busca text)");
     }
     @Override

@@ -30,18 +30,16 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:gravity="center"
-            android:paddingEnd="05dp"
-            android:paddingStart="20dp"
             android:text="@string/txt_site"
             android:textColor="#ffff"
-            android:textSize="15sp"
+            android:textSize="13sp"
             tools:textStyle="italic" />
 
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/linearBemVinde"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/linearLayout"
         android:layout_centerInParent="true"
@@ -54,7 +52,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="17dp"
-            android:gravity="center_horizontal"
+            android:gravity="center"
             android:paddingEnd="20dp"
             android:paddingStart="20dp"
             android:text="@string/txt_bem_vindo"

@@ -51,7 +51,7 @@
     <string name="txt_telefone_invalido">Telefone inválido</string>
     <string name="txt_senha_identica">As senhas devem ser idênticas</string>
     <string name="txt_termos_consumidor">Termos de uso:</string>
-    <string name="norma_cadastro">Ao confirmar o cadastro, você afirma que aceita os termos e condições de uso. Para visualizar os termos acesse:</string>
+    <string name="norma_cadastro">Ao confirmar o cadastro, você afirma que aceita os termos e condições de uso.</string>
     <string name="check_aceito">Li e aceito os termos</string>
     <string name="btn_continuar">Continuar</string>
     <string name="txt_aviso">Aviso</string>
@@ -69,14 +69,17 @@
     <string name="ed_usuario_pj">Usuário (e-mail corporativo)</string>
     <string name="txt_valida_cpf">CPF Inválido!</string>/string>
     <string name="txt_valida_cnpj">CNPJ Inválido!</string>
-    <string name="txt_solicia_pj">Dados da Empresa</string>
-    <string name="txt_solicia_func">Dados do Funcionário</string>
-    <string name="txt_dados_pessoais">Dados Pessoais</string>
-    <string name="txt_solicia_login">Dados para Login</string>
+    <string name="txt_solicia_pj">Dados da Empresa:</string>
+    <string name="txt_solicia_func">Dados do Funcionário:</string>
+    <string name="txt_dados_pessoais">Dados Pessoais:</string>
+    <string name="txt_solicia_login">Dados para Login:</string>
     <string name="btn_prosseguir">Próximo</string>
     <string name="valida_usuario_existente">Usuário e/ou Senha inválidos</string>
     <string name="valida_cadastro_sucesso">Cadastro realizado com sucesso! Verifique seu email e confirme seu acesso.</string>
     <string name="txt_sucesso">Sucesso</string>
     <string name="valida_cadastro_falha">Ocorreu um erro ao tentar cadastrar os dados. Por favor tente novamente.</string>
     <string name="txt_erro_inesperado">Ops! Ocorreu um erro inesperado...</string>
+    <string name="txt_title_warning">Titulo</string>
+    <string name="txt_body_message">Message</string>
+    <string name="norma_web_view"> Para visualizar os termos clique aqui.</string>
 </resources>
