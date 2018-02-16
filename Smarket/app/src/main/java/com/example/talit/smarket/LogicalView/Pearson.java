@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by talit on 13/02/2018.
  */
 
-public class Consumers {
+public class Pearson {
     @SerializedName("UserLogin")
     @Expose
     private Usuario userLogin;
@@ -25,12 +25,13 @@ public class Consumers {
     private int typePhoneId;
     @SerializedName("AreaCode")
     @Expose
-    private String areaCode;
+    private Phone areaCode;
     @SerializedName("PhoneNumber")
     @Expose
-    private String phoneNumber;
+    private Phone phoneNumber;
+    private String cpf;
 
-    public Consumers(Usuario userLogin, Usuario userPass, String name, String lastname, int typePhoneId, String areaCode, String phoneNumber) {
+    public Pearson(Usuario userLogin, Usuario userPass, String name, String lastname, int typePhoneId, Phone areaCode, Phone phoneNumber, String cpf) {
         this.userLogin = userLogin;
         this.userPass = userPass;
         this.name = name;
@@ -38,6 +39,15 @@ public class Consumers {
         this.typePhoneId = typePhoneId;
         this.areaCode = areaCode;
         this.phoneNumber = phoneNumber;
+        this.cpf = cpf;
+    }
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
     }
 
     public Usuario getUserLogin() {
@@ -80,19 +90,19 @@ public class Consumers {
         this.typePhoneId = typePhoneId;
     }
 
-    public String getAreaCode() {
+    public Phone getAreaCode() {
         return areaCode;
     }
 
-    public void setAreaCode(String areaCode) {
+    public void setAreaCode(Phone areaCode) {
         this.areaCode = areaCode;
     }
 
-    public String getPhoneNumber() {
+    public Phone getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
+    public void setPhoneNumber(Phone phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 }

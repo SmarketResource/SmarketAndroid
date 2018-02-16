@@ -4,12 +4,12 @@ package com.example.talit.smarket.LogicalView;
  * Created by talit on 12/02/2018.
  */
 
-public class Busca {
+public class Search {
 
     private int idString;
     private String strBusca;
 
-    public Busca(int idString, String strBusca) {
+    public Search(int idString, String strBusca) {
         this.idString = idString;
         this.strBusca = strBusca;
     }

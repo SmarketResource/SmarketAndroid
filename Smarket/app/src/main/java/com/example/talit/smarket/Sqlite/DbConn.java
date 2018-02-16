@@ -5,7 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.example.talit.smarket.LogicalView.Busca;
+import com.example.talit.smarket.LogicalView.Search;
 import com.example.talit.smarket.LogicalView.Usuario;
 
 import java.util.ArrayList;
@@ -46,8 +46,8 @@ public class DbConn {
         return null;
     }
 
-    public ArrayList<Busca> selectHistorico(){
-        ArrayList<Busca> listas = new ArrayList<Busca>();
+    public ArrayList<Search> selectHistorico(){
+        ArrayList<Search> listas = new ArrayList<Search>();
 
         String[] colunas_db = new String[]{"id_hist","busca"};
         Cursor cursor = db.query(true, "searchview", null, null, null, null, null, null, null);
@@ -55,7 +55,7 @@ public class DbConn {
         if(cursor.moveToFirst()){
 
             do{
-                listas.add(new Busca(cursor.getInt(0),
+                listas.add(new Search(cursor.getInt(0),
                         cursor.getString(1)));
 
             }while(cursor.moveToNext());

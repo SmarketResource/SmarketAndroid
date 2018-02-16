@@ -1,6 +1,6 @@
 package com.example.talit.smarket.Retrofit;
 
-import com.example.talit.smarket.LogicalView.Consumers;
+import com.example.talit.smarket.LogicalView.Pearson;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -15,15 +15,15 @@ import retrofit2.http.POST;
 public interface Consumer {
 
     @FormUrlEncoded
-    @POST("Consumers/SaveConsumer")
-    Call<Consumers> saveConsumer(@Header("Content-Type") String contenType,
-                                 @Header("Accept") String accept,
-                                 @Header("Authorization") String authorization,
-                                 @Field("UserLogin") String userLogin,
-                                 @Field("UserPass") String userPass,
-                                 @Field("Name") String name,
-                                 @Field("LastName") String lastName,
-                                 @Field("TypePhoneId") int typePhone,
-                                 @Field("AreaCode") String areaCode,
-                                 @Field("PhoneNumber") String phoneNumber);
+    @POST("Pearson/SaveConsumer")
+    Call<Pearson> saveConsumer(@Header("Content-Type") String contenType,
+                               @Header("Accept") String accept,
+                               @Header("Authorization") String authorization,
+                               @Field("UserLogin") String userLogin,
+                               @Field("UserPass") String userPass,
+                               @Field("Name") String name,
+                               @Field("LastName") String lastName,
+                               @Field("TypePhoneId") int typePhone,
+                               @Field("AreaCode") String areaCode,
+                               @Field("PhoneNumber") String phoneNumber);
 }

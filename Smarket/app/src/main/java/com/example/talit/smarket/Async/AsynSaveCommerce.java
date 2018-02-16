@@ -51,7 +51,7 @@ public class AsynSaveCommerce  extends AsyncTask<String, String, String> {
     @Override
     protected String doInBackground(String... n) {
 
-        String api_url = "https://smarketapi.azurewebsites.net/API/Commerce/SaveCommerce";
+        String api_url = "https://smarketapi.azurewebsites.net/API/CommerceBusiness/SaveCommerce";
 
         token = n[0];
         SocialName = n[1];

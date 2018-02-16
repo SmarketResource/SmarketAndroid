@@ -1,6 +1,5 @@
 package com.example.talit.smarket.ActConsumers;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -18,7 +17,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -31,11 +29,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.talit.smarket.Activities.AutenticaUsuario;
-import com.example.talit.smarket.Async.AsyncSaveConsumer;
-import com.example.talit.smarket.LogicalView.Consumers;
+import com.example.talit.smarket.LogicalView.Pearson;
 import com.example.talit.smarket.R;
 import com.example.talit.smarket.Retrofit.Consumer;
-import com.example.talit.smarket.Retrofit.SecurityToken;
 import com.example.talit.smarket.Utils.Validacoes;
 import com.github.rtoshiro.util.format.SimpleMaskFormatter;
 import com.github.rtoshiro.util.format.text.MaskTextWatcher;
@@ -111,7 +107,7 @@ public class CadastroPessoaFisica extends AppCompatActivity {
         edtTel               = findViewById(R.id.ed_telefones);
         btnCadastrar         = findViewById(R.id.btn_cadastro);
         pb                   = findViewById(R.id.pb_cadastro);
-        smp                  = findViewById(R.id.sp_tp_tel);
+        //smp                  = findViewById(R.id.sp_tp_tel);
         txtValidaNome        = findViewById(R.id.txt_nome);
         txtValidaSobreNome   = findViewById(R.id.txt_sobrenome);
         txtValidaEmail       = findViewById(R.id.txt_email);
@@ -137,8 +133,8 @@ public class CadastroPessoaFisica extends AppCompatActivity {
         tpTel = new String[]{getString(R.string.smp_desc_telefone), getString(R.string.smp_desc_celular)};
         adp   = new ArrayAdapter<String>(this, R.layout.custom_textview_to_spinner, tpTel);
 
-        adp.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        smp.setAdapter(adp);
+        //adp.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //smp.setAdapter(adp);
 
         pb.setVisibility(View.INVISIBLE);
 
@@ -350,49 +346,6 @@ public class CadastroPessoaFisica extends AppCompatActivity {
 
             }
         });
-        smp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            public void onItemSelected(AdapterView<?> parent, View v, int posicao, long id) {
-                esTel = parent.getItemAtPosition(posicao).toString();
-
-                if (esTel.equals("Telefone")) {
-                    idTelefone = 1;
-                    edtTel.setText("");
-                    edtTel.removeTextChangedListener(mtw);
-                    smf = new SimpleMaskFormatter("(NN)NNNN-NNNN");
-                    mtw = new MaskTextWatcher(edtTel, smf);
-                    edtTel.addTextChangedListener(mtw);
-                }
-                if (esTel.equals("Celular")) {
-                    idTelefone = 2;
-                    edtTel.setText("");
-                    edtTel.removeTextChangedListener(mtw);
-                    smf = new SimpleMaskFormatter("(NN)NNNNN-NNNN");
-                    mtw = new MaskTextWatcher(edtTel, smf);
-                    edtTel.addTextChangedListener(mtw);
-                }
-                if (esTel.equals("Teléfono")) {
-                    idTelefone = 1;
-                    edtTel.setText("");
-                    edtTel.removeTextChangedListener(mtw);
-                    smf = new SimpleMaskFormatter("(NN)NNNN-NNNN");
-                    mtw = new MaskTextWatcher(edtTel, smf);
-                    edtTel.addTextChangedListener(mtw);
-                }
-                if (esTel.equals("Móviles")) {
-                    idTelefone = 2;
-                    edtTel.setText("");
-                    edtTel.removeTextChangedListener(mtw);
-                    smf = new SimpleMaskFormatter("(NN)NNNNN-NNNN");
-                    mtw = new MaskTextWatcher(edtTel, smf);
-                    edtTel.addTextChangedListener(mtw);
-                }
-                //Toast.makeText(CadastroConsumidor.this, esTel, Toast.LENGTH_SHORT).show();
-            }
-
-            public void onNothingSelected(AdapterView<?> arg0) {
-                // TODO Auto-generated method stub
-            }
-        });
         btnCadastrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -495,7 +448,7 @@ public class CadastroPessoaFisica extends AppCompatActivity {
 
                                 saveConsumer("Basic " +tokenUser,edtEmail.getText().toString().trim(),edtSenha.getText().toString().trim(),
                                         edtNome.getText().toString().trim(),edtSobrenome.getText().toString().trim(),
-                                         idTelefone,dd,telefone);
+                                         1,dd,telefone);
 
                                 dialogo.dismiss();
 
@@ -558,10 +511,10 @@ public class CadastroPessoaFisica extends AppCompatActivity {
     public void saveConsumer(String tokenUser, String userLogin, String userPass, String name, String lastName, int typePhone, String areaCode, String phoneNumber){
 
         Consumer consumer = retrofit.create(Consumer.class);
-        Call<Consumers> callUser = consumer.saveConsumer("application/x-www-form-urlencoded","application/json",tokenUser, userLogin,userPass,name,lastName,typePhone,areaCode,phoneNumber);
-        callUser.enqueue(new Callback<Consumers>() {
+        Call<Pearson> callUser = consumer.saveConsumer("application/x-www-form-urlencoded","application/json",tokenUser, userLogin,userPass,name,lastName,typePhone,areaCode,phoneNumber);
+        callUser.enqueue(new Callback<Pearson>() {
             @Override
-            public void onResponse(Call<Consumers> call, Response<Consumers> response) {
+            public void onResponse(Call<Pearson> call, Response<Pearson> response) {
 
                 if (response.isSuccessful()) {
                     pb.setVisibility(View.INVISIBLE);
@@ -577,7 +530,7 @@ public class CadastroPessoaFisica extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<Consumers> call, Throwable t) {
+            public void onFailure(Call<Pearson> call, Throwable t) {
 
                 pb.setVisibility(View.INVISIBLE);
                 Validacoes.alertDialogWarning(CadastroPessoaFisica.this,getString(R.string.txt_erro_inesperado),

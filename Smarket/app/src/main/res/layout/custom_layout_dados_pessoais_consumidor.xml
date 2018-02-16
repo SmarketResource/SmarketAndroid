@@ -35,7 +35,7 @@
     <View
         android:id="@+id/divider_level_um"
         android:layout_width="1dp"
-        android:layout_height="435dp"
+        android:layout_height="375dp"
         android:layout_below="@id/level_um"
         android:layout_marginStart="33dp"
         android:background="@color/colorPrimaryDark" />
@@ -122,7 +122,7 @@
             android:textColor="@android:color/holo_red_light"
             android:textSize="12sp" />
 
-        <RelativeLayout
+       <!-- <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:layout_marginTop="10dp"
@@ -150,13 +150,13 @@
                 android:spinnerMode="dropdown"
                 tools:backgroundTint="@color/colorAccent"/>
 
-        </RelativeLayout>
+        </RelativeLayout>-->
 
         <EditText
             android:id="@+id/ed_telefones"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginTop="25dp"
+            android:layout_marginTop="10dp"
             android:background="@drawable/borda_edittext"
             android:drawableLeft="@mipmap/ic_phone"
             android:drawableTint="@color/colorAccent"
