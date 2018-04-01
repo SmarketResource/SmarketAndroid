@@ -1,8 +1,10 @@
 package com.example.talit.smarket.ActConsumers;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AlertDialog;
@@ -26,10 +28,19 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.talit.smarket.Activities.AutenticaUsuario;
+import com.example.talit.smarket.LogicalView.CommerceBusiness;
 import com.example.talit.smarket.R;
+import com.example.talit.smarket.Retrofit.Commerce;
 import com.example.talit.smarket.Utils.Validacoes;
 import com.github.rtoshiro.util.format.SimpleMaskFormatter;
 import com.github.rtoshiro.util.format.text.MaskTextWatcher;
+
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class CadastroPessoaJuridica extends AppCompatActivity {
 
@@ -85,9 +96,13 @@ public class CadastroPessoaJuridica extends AppCompatActivity {
     private Button btnCadastrar;
     private ImageView imageUm;
     private ImageView imageDois;
-    private ProgressBar pb;
-
+    private Retrofit retrofit;
+    HttpLoggingInterceptor logging;
+    public static final String TOKEN = "TOKEN";
+    private String tokenUser;
     private static Context c;
+    private ProgressDialog progress;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -126,11 +141,15 @@ public class CadastroPessoaJuridica extends AppCompatActivity {
         imageDois             = findViewById(R.id.concluido_dois);
         btnLevelTres          = findViewById(R.id.bt_level_tres);
         btnCadastrar          = findViewById(R.id.bt_cadastrar);
-        pb                    = findViewById(R.id.pb_cadastro);
+
+        SharedPreferences prefs = getSharedPreferences(TOKEN, MODE_PRIVATE);
+        tokenUser = prefs.getString("token", null);
 
         direitaParaEsquerda      = AnimationUtils.loadAnimation(this,R.anim.da_direita_para_esquerda);
         deBaixoParaCima          = AnimationUtils.loadAnimation(this,R.anim.para_cima);
         direitaParaEsquerdaLogin = AnimationUtils.loadAnimation(this,R.anim.da_direita_para_esquerda);
+
+
 
         haNomeFantasia  = false;
         haRazaoSocial   = false;
@@ -143,7 +162,7 @@ public class CadastroPessoaJuridica extends AppCompatActivity {
         haSenha         = false;
         haConfirmSenha  = false;
 
-        smf = new SimpleMaskFormatter("(NN)NNNN-NNNN");
+        smf = new SimpleMaskFormatter("(NN)NNNNN-NNNN");
         mtw = new MaskTextWatcher(edtTelefone, smf);
         edtTelefone.addTextChangedListener(mtw);
 
@@ -154,6 +173,16 @@ public class CadastroPessoaJuridica extends AppCompatActivity {
         smf3 = new SimpleMaskFormatter("NNN.NNN.NNN-NN");
         mtw3 = new MaskTextWatcher(edtCpf, smf3);
         edtCpf.addTextChangedListener(mtw3);
+
+        if (Validacoes.verifyConnection(CadastroPessoaJuridica.this)) {
+            logging = new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY);
+            OkHttpClient.Builder httpClient = new OkHttpClient.Builder().addInterceptor(logging);
+            retrofit = Validacoes.getRetrofitProprieties("https://smarketapi.azurewebsites.net/api/",httpClient);
+
+        } else {
+            Validacoes.alertDialogWarning(CadastroPessoaJuridica.this,getString(R.string.txt_verifica_conexao_tentar),
+                    getString(R.string.txt_verifica_conexao),R.drawable.ic_public_black_24dp);
+        }
 
         edtNomeFantasia.addTextChangedListener(new TextWatcher() {
             @Override
@@ -582,26 +611,21 @@ public class CadastroPessoaJuridica extends AppCompatActivity {
                         @Override
                         public void onClick(View v) {
                             if (aceitar.isChecked()) {
-                                pb.setVisibility(View.VISIBLE);
+                                progress = ProgressDialog.show(CadastroPessoaJuridica.this,null,getString(R.string.txt_aguarde), false, true);
                                 String telefoneCompleto = edtTelefone.getText().toString().replace("(", "").replace(")", "").replace("-", "");
 
                                 String dd = telefoneCompleto.substring(0, 2);
                                 String telefone = telefoneCompleto.substring(2, telefoneCompleto.length());
 
+                                saveCommerce("Basic " +tokenUser, edtRazaoSocial.getText().toString(), edtNomeFantasia.getText().toString(),
+                                        edtCnpj.getText().toString(), dd,telefone,1, edtNomeFuncionario.getText().toString(),
+                                        edtSobrenome.getText().toString(),edtCpf.getText().toString(),1, edtEmailFunc.getText().toString(),edtSenha.getText().toString());
+
                                 dialogo.dismiss();
 
                             } else {
-                                AlertDialog.Builder builder = new AlertDialog.Builder(CadastroPessoaJuridica.this);
-                                builder.setTitle(R.string.txt_aviso);
-                                builder.setMessage(R.string.txt_aceite_os_termos);
-                                builder.setPositiveButton(R.string.txt_fechar, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-                                    }
-                                });
-                                builder.setCancelable(false);
-                                builder.show();
+                                Validacoes.alertDialogWarning(CadastroPessoaJuridica.this,getString(R.string.txt_aceite_os_termos),
+                                        getString(R.string.txt_aviso),R.drawable.ic_error_outline_black_24dp);
                             }
 
                         }
@@ -611,51 +635,61 @@ public class CadastroPessoaJuridica extends AppCompatActivity {
                         @Override
                         public void onClick(View v) {
                             dialogo.dismiss();
+                            Intent i = new Intent(CadastroPessoaJuridica.this, AutenticaUsuario.class);
+                            i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                            startActivity(i);
                         }
 
                     });
 
                 } else {
-                    android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(CadastroPessoaJuridica.this);
-                    builder.setTitle(R.string.txt_verifica_conexao);
-                    builder.setMessage(R.string.txt_verifica_conexao_tentar);
-                    builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
-                    builder.setCancelable(false);
-                    builder.show();
+                    Validacoes.alertDialogWarning(CadastroPessoaJuridica.this,getString(R.string.txt_verifica_conexao_tentar),
+                            getString(R.string.txt_verifica_conexao),R.drawable.ic_public_black_24dp);
                 }
 
             } else {
-                android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(CadastroPessoaJuridica.this);
-                builder.setTitle(R.string.txt_dados_ent_invalidos);
-                builder.setMessage(R.string.txt_dados_dig_corretos);
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-                builder.setCancelable(false);
-                builder.show();
+                Validacoes.alertDialogWarning(CadastroPessoaJuridica.this,getString(R.string.txt_dados_dig_corretos),
+                        getString(R.string.txt_dados_ent_invalidos),R.drawable.ic_error_outline_black_24dp);
 
             }
         }else{
-            android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(CadastroPessoaJuridica.this);
-            builder.setTitle(R.string.txt_dados_ent_invalidos);
-            builder.setMessage(R.string.txt_dados_dig_corretos);
-            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            });
-            builder.setCancelable(false);
-            builder.show();
+            Validacoes.alertDialogWarning(CadastroPessoaJuridica.this,getString(R.string.txt_dados_dig_corretos),
+                    getString(R.string.txt_dados_ent_invalidos),R.drawable.ic_error_outline_black_24dp);
         }
+    }
+    public void saveCommerce(String tokenUser, String socialName, String fantasyName, String cnpj, String areaCode,String phoneNumber, int typePhone, String employeeName, String employeeLastName,
+                             String cpf,int employeeRoleId,String userLogin, String userPasss){
+
+        Commerce commerce = retrofit.create(Commerce.class);
+        Call<CommerceBusiness> callUser = commerce.saveCommerce("application/x-www-form-urlencoded","application/json", tokenUser,  socialName, fantasyName, cnpj, areaCode, phoneNumber, typePhone,
+                employeeName, employeeLastName, cpf, employeeRoleId, userLogin, userPasss);
+
+        callUser.enqueue(new Callback<CommerceBusiness>() {
+            @Override
+            public void onResponse(Call<CommerceBusiness> call, Response<CommerceBusiness> response) {
+
+                if (response.isSuccessful()) {
+                    progress.dismiss();
+                    Validacoes.alertDialogWarning(CadastroPessoaJuridica.this,getString(R.string.valida_cadastro_sucesso),
+                            getString(R.string.txt_sucesso),R.drawable.ic_mail_outline_black_24dp);
+
+                }else{
+                    progress.dismiss();
+                    Validacoes.alertDialogWarning(CadastroPessoaJuridica.this,getString(R.string.valida_cadastro_falha),
+                            getString(R.string.txt_aviso),R.drawable.ic_error_outline_black_24dp);
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CommerceBusiness> call, Throwable t) {
+
+                progress.dismiss();
+                Validacoes.alertDialogWarning(CadastroPessoaJuridica.this,getString(R.string.txt_erro_inesperado),
+                        getString(R.string.txt_verifica_conexao),R.drawable.ic_public_black_24dp);
+
+            }
+        });
     }
     @Override
     public void onBackPressed() {

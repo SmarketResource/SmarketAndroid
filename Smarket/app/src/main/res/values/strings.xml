@@ -81,5 +81,8 @@
     <string name="txt_erro_inesperado">Ops! Ocorreu um erro inesperado...</string>
     <string name="txt_title_warning">Titulo</string>
     <string name="txt_body_message">Message</string>
+    <string name="txt_aguarde">Aguarde um momento...</string>
     <string name="norma_web_view"> Para visualizar os termos clique aqui.</string>
+    <string name="txt_mostrar_senha">Mostrar senha</string>
+    <string name="txt_serach_view">Busque</string>
 </resources>

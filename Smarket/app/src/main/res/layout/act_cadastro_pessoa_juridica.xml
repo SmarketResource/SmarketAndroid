@@ -6,6 +6,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/mercado"
     android:orientation="vertical"
+    android:paddingBottom="10dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="20dp"
     tools:context="com.example.talit.smarket.ActConsumers.CadastroPessoaJuridica">
 
     <ScrollView
@@ -43,8 +47,8 @@
 
                 <TextView
                     android:id="@+id/level_um_down"
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
                     android:layout_margin="10dp"
                     android:background="@drawable/borda_level"
                     android:gravity="center"
@@ -53,9 +57,9 @@
 
                 <ImageView
                     android:id="@+id/concluido_um"
-                    android:visibility="gone"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:visibility="visible"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
                     android:layout_alignStart="@+id/level_um_down"
                     android:layout_centerVertical="true"
                     app:srcCompat="@mipmap/ic_concluido" />
@@ -98,8 +102,8 @@
 
                 <TextView
                     android:id="@+id/level_dois_down"
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
                     android:layout_margin="10dp"
                     android:background="@drawable/borda_level"
                     android:gravity="center"
@@ -111,7 +115,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginTop="23dp"
+                    android:layout_marginTop="15dp"
                     android:gravity="center"
                     android:layout_toEndOf="@+id/level_dois_down"
                     android:text="@string/txt_solicia_func"
@@ -121,8 +125,8 @@
 
                 <ImageView
                     android:id="@+id/concluido_dois"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
                     android:layout_alignStart="@+id/level_dois_down"
                     android:layout_centerVertical="true"
                     android:visibility="gone"
@@ -157,8 +161,8 @@
 
                 <TextView
                     android:id="@+id/level_tres"
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
                     android:layout_margin="10dp"
                     android:background="@drawable/borda_level"
                     android:gravity="center"
@@ -170,7 +174,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginTop="23dp"
+                    android:layout_marginTop="15dp"
                     android:gravity="center"
                     android:layout_toEndOf="@+id/level_tres"
                     android:text="@string/txt_solicia_login"
@@ -185,12 +189,5 @@
         </LinearLayout>
 
     </ScrollView>
-
-    <ProgressBar
-        android:id="@+id/pb_cadastro"
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp" />
 
 </RelativeLayout>

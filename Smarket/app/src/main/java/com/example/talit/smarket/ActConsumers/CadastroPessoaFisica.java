@@ -1,5 +1,6 @@
 package com.example.talit.smarket.ActConsumers;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -64,7 +65,7 @@ public class CadastroPessoaFisica extends AppCompatActivity {
     private String[] tpTel;
     private String esTel;
     private ArrayAdapter<String> adp;
-    public static ProgressBar pb;
+    private ProgressDialog progress;
     private boolean haCpf;
     private boolean haNome;
     private boolean haSobrenome;
@@ -106,7 +107,6 @@ public class CadastroPessoaFisica extends AppCompatActivity {
         edtConfirSenha       = findViewById(R.id.ed_senha_confimar_cadastrar);
         edtTel               = findViewById(R.id.ed_telefones);
         btnCadastrar         = findViewById(R.id.btn_cadastro);
-        pb                   = findViewById(R.id.pb_cadastro);
         //smp                  = findViewById(R.id.sp_tp_tel);
         txtValidaNome        = findViewById(R.id.txt_nome);
         txtValidaSobreNome   = findViewById(R.id.txt_sobrenome);
@@ -135,8 +135,6 @@ public class CadastroPessoaFisica extends AppCompatActivity {
 
         //adp.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         //smp.setAdapter(adp);
-
-        pb.setVisibility(View.INVISIBLE);
 
         esTel            = "";
         haCpf            = false;
@@ -440,7 +438,7 @@ public class CadastroPessoaFisica extends AppCompatActivity {
                         @Override
                         public void onClick(View v) {
                             if (aceitar.isChecked()) {
-                                pb.setVisibility(View.VISIBLE);
+                                progress = ProgressDialog.show(CadastroPessoaFisica.this,null,getString(R.string.txt_aguarde), false, true);
                                 String telefoneCompleto = edtTel.getText().toString().replace("(", "").replace(")", "").replace("-", "");
 
                                 String dd = telefoneCompleto.substring(0, 2);
@@ -466,6 +464,9 @@ public class CadastroPessoaFisica extends AppCompatActivity {
                         @Override
                         public void onClick(View v) {
                            dialogo.dismiss();
+                            Intent i = new Intent(CadastroPessoaFisica.this, AutenticaUsuario.class);
+                            i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                            startActivity(i);
                         }
 
                     });
@@ -517,12 +518,12 @@ public class CadastroPessoaFisica extends AppCompatActivity {
             public void onResponse(Call<Pearson> call, Response<Pearson> response) {
 
                 if (response.isSuccessful()) {
-                    pb.setVisibility(View.INVISIBLE);
+                    progress.dismiss();
                     Validacoes.alertDialogWarning(CadastroPessoaFisica.this,getString(R.string.valida_cadastro_sucesso),
                             getString(R.string.txt_sucesso),R.drawable.ic_mail_outline_black_24dp);
 
                 }else{
-                    pb.setVisibility(View.INVISIBLE);
+                    progress.dismiss();
                     Validacoes.alertDialogWarning(CadastroPessoaFisica.this,getString(R.string.valida_cadastro_falha),
                             getString(R.string.txt_aviso),R.drawable.ic_error_outline_black_24dp);
 
@@ -532,7 +533,7 @@ public class CadastroPessoaFisica extends AppCompatActivity {
             @Override
             public void onFailure(Call<Pearson> call, Throwable t) {
 
-                pb.setVisibility(View.INVISIBLE);
+                progress.dismiss();
                 Validacoes.alertDialogWarning(CadastroPessoaFisica.this,getString(R.string.txt_erro_inesperado),
                         getString(R.string.txt_verifica_conexao),R.drawable.ic_public_black_24dp);
 

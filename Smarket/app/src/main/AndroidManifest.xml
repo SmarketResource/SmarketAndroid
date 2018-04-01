@@ -64,7 +64,7 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@style/MyTheme.NoActionBar" />
+            android:theme="@style/FelipeGathenho"/>
         <activity
             android:name=".ActConsumers.CadastroPessoaFisica"
             android:configChanges="orientation|keyboardHidden|screenSize"

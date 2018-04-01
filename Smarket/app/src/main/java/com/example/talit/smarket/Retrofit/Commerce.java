@@ -16,7 +16,7 @@ import retrofit2.http.POST;
 public interface Commerce {
 
     @FormUrlEncoded
-    @POST("CommerceBusiness/SaveCommerce")
+    @POST("Commerce/SaveCommerce")
     Call<CommerceBusiness> saveCommerce(@Header("Content-Type") String contenType,
                                         @Header("Accept") String accept,
                                         @Header("Authorization") String authorization,
@@ -29,7 +29,7 @@ public interface Commerce {
                                         @Field("EmployeeName") String employeeName,
                                         @Field("EmployeeLastName") String employeeLastName,
                                         @Field("CPF") String cpf,
-                                        @Field("EmployeeRoleId") String employeeRoleId,
-                                        @Field("UserLogin") String lastName,
-                                        @Field("UserPass") String userPassstName);
+                                        @Field("EmployeeRoleId") int employeeRoleId,
+                                        @Field("UserLogin") String userLogin,
+                                        @Field("UserPass") String userPasss);
 }

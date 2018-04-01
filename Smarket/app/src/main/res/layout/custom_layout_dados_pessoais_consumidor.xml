@@ -3,14 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:layout_marginTop="16dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_marginBottom="16dp"
     android:background="@color/transparente">
 
     <TextView
         android:id="@+id/level_um"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
         android:layout_gravity="center"
         android:layout_margin="10dp"
         android:background="@drawable/borda_level"
@@ -23,7 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="23dp"
+        android:layout_marginTop="15dp"
         android:gravity="center"
         android:layout_toEndOf="@+id/level_um"
         android:text="@string/txt_dados_pessoais"
@@ -35,9 +35,9 @@
     <View
         android:id="@+id/divider_level_um"
         android:layout_width="1dp"
-        android:layout_height="375dp"
+        android:layout_height="337dp"
         android:layout_below="@id/level_um"
-        android:layout_marginStart="33dp"
+        android:layout_marginStart="27dp"
         android:background="@color/colorPrimaryDark" />
 
     <LinearLayout
@@ -47,13 +47,13 @@
         android:layout_alignStart="@+id/divider_level_um"
         android:layout_below="@+id/level_um"
         android:layout_marginEnd="13dp"
-        android:layout_marginStart="15dp"
+        android:layout_marginStart="10dp"
         android:orientation="vertical">
 
         <EditText
             android:id="@+id/ed_nome"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:background="@drawable/borda_edittext"
             android:drawableLeft="@mipmap/ic_senha"
             android:hint="@string/txt_nome"
@@ -77,8 +77,8 @@
         <EditText
             android:id="@+id/ed_sobrenome"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="10dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="05dp"
             android:background="@drawable/borda_edittext"
             android:drawableLeft="@mipmap/ic_senha"
             android:ems="10"
@@ -101,8 +101,8 @@
         <EditText
             android:id="@+id/ed_email_consumidor"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="10dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="05dp"
             android:background="@drawable/borda_edittext"
             android:drawableLeft="@mipmap/ic_email"
             android:ems="10"
@@ -155,8 +155,8 @@
         <EditText
             android:id="@+id/ed_telefones"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="10dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="05dp"
             android:background="@drawable/borda_edittext"
             android:drawableLeft="@mipmap/ic_phone"
             android:drawableTint="@color/colorAccent"
@@ -189,8 +189,5 @@
             tools:ignore="RelativeOverlap,RtlHardcoded" />
 
     </LinearLayout>
-
-
-
 
 </RelativeLayout>

@@ -9,7 +9,8 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="10dp"
+    android:paddingTop="16dp"
+    android:fitsSystemWindows="true"
     tools:context="com.example.talit.smarket.Activities.AutenticaUsuario">
 
 
@@ -19,19 +20,32 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:scrollbarAlwaysDrawVerticalTrack="true"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="16dp"
         tools:ignore="UselessParent">
 
-        <ImageView
+        <!--<ImageView
             android:id="@+id/imLogo"
+            android:layout_marginTop="30dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:src="@drawable/logo_tipo"
+            tools:ignore="ContentDescription" />-->
+
+        <ImageView
+            android:id="@+id/imLogo"
+            android:layout_marginTop="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/smarket_dois"
             tools:ignore="ContentDescription" />
 
         <EditText
             android:id="@+id/ed_email_cliente"
             android:layout_width="fill_parent"
-            android:layout_height="60dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
             android:background="@drawable/custom_editext_login"
             android:drawableLeft="@mipmap/ic_email"
@@ -47,7 +61,7 @@
         <EditText
             android:id="@+id/ed_senha_cliente"
             android:layout_width="fill_parent"
-            android:layout_height="60dp"
+            android:layout_height="wrap_content"
             android:background="@drawable/custom_edittext_senha"
             android:drawableLeft="@mipmap/ic_cadeado_senha"
             android:drawableTint="@color/colorAccent"
@@ -59,6 +73,14 @@
             android:textColor="@color/colorPrimaryDark"
             android:textColorHint="@color/colorAccent"
             tools:ignore="Deprecated,HardcodedText,RtlHardcoded,UnusedAttribute" />
+
+        <CheckBox
+            android:id="@+id/mostrarSenha"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#fff"
+            android:visibility="gone"
+            android:text="@string/txt_mostrar_senha" />
 
         <TextView
             android:id="@+id/txt_valida_autenticacao"
@@ -73,50 +95,52 @@
             tools:ignore="RelativeOverlap,SmallSp" />
 
         <Button
+            android:id="@+id/btn_entrar"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@drawable/bordas_grid_buttons"
+            android:text="@string/btn_entrar"
+            android:layout_marginTop="10dp"
+            android:textAllCaps="false"
+            android:textColor="#fff"
+            android:textSize="18sp" />
+
+        <Button
             android:id="@+id/btn_exqueceu_senha"
             style="@android:style/Widget.Holo.Light.Button.Borderless.Small"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="right"
+            android:layout_marginTop="05dp"
             android:text="@string/btn_esqueceu_senha"
             android:textColor="#cccccc"
             tools:ignore="RtlHardcoded" />
-
-        <Button
-            android:id="@+id/btn_entrar"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bordas_grid_buttons"
-            android:text="@string/btn_entrar"
-            android:textAllCaps="false"
-            android:textColor="#fff"
-            android:textSize="18sp" />
 
     </LinearLayout>
 
     <com.facebook.login.widget.LoginButton
         android:id="@+id/login_button"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_above="@+id/btn_cadastrar"
-        android:layout_gravity="center_horizontal"
         android:textAllCaps="false"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
         android:textColor="#fff"
         android:textSize="18dp"
+        style="@style/FacebookLoginButton"
         tools:ignore="SpUsage" />
 
-    <ProgressBar
-        android:id="@+id/ps_login"
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp" />
 
     <Button
         android:id="@+id/btn_cadastrar"
         style="@android:style/Widget.Holo.Light.Button.Borderless.Small"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingTop="05dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
         android:layout_alignParentBottom="true"
         android:text="@string/btn_cadastrar"
         android:textColor="#fff" />

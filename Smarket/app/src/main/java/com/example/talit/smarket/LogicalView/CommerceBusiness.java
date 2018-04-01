@@ -38,7 +38,7 @@ public class CommerceBusiness {
     private Pearson cpf;
     @SerializedName("EmployeeRoleId")
     @Expose
-    private String employeeRoleId;
+    private int employeeRoleId;
     @SerializedName("UserLogin")
     @Expose
     private Usuario userLogin;
@@ -46,7 +46,7 @@ public class CommerceBusiness {
     @Expose
     private Usuario userPass;
 
-    public CommerceBusiness(String socialName, String fantasyName, String cnpj, Phone areaCode, Phone number, Phone typePhoneId, String employeeName, String employeeLastName, Pearson cpf, String employeeRoleId, Usuario userLogin, Usuario userPass) {
+    public CommerceBusiness(String socialName, String fantasyName, String cnpj, Phone areaCode, Phone number, Phone typePhoneId, String employeeName, String employeeLastName, Pearson cpf, int employeeRoleId, Usuario userLogin, Usuario userPass) {
         this.socialName = socialName;
         this.fantasyName = fantasyName;
         this.cnpj = cnpj;
@@ -133,11 +133,11 @@ public class CommerceBusiness {
         this.cpf = cpf;
     }
 
-    public String getEmployeeRoleId() {
+    public int getEmployeeRoleId() {
         return employeeRoleId;
     }
 
-    public void setEmployeeRoleId(String employeeRoleId) {
+    public void setEmployeeRoleId(int employeeRoleId) {
         this.employeeRoleId = employeeRoleId;
     }
 

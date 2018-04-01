@@ -64,6 +64,11 @@ public class WelcomeScreen extends AppCompatActivity {
         super.onResume();
         dbconn = new DbConn(WelcomeScreen.this);
 
+        Intent intent = new Intent(this, PaginaInicialConsumidor.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+        startActivity(intent);
+        finish();
+/*
         if (dbconn.selectConsumidor() != null) {
 
                 if(dbconn.selectConsumidor().getTypeUser().equals("2") || dbconn.selectConsumidor().getTypeUser().equals("3")) {
@@ -73,7 +78,7 @@ public class WelcomeScreen extends AppCompatActivity {
                     finish();
                 }
 
-        }
+        }*/
 
     }
 

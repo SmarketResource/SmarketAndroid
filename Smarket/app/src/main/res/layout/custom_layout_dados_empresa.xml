@@ -3,14 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="16dp"
-    android:layout_marginTop="20dp"
+    android:layout_marginTop="16dp"
     android:background="@color/transparente">
 
     <TextView
         android:id="@+id/level_um"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
         android:layout_gravity="center"
         android:layout_margin="10dp"
         android:background="@drawable/borda_level"
@@ -23,7 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="23dp"
+        android:layout_marginTop="15dp"
         android:gravity="center"
         android:layout_toEndOf="@+id/level_um"
         android:text="@string/txt_solicia_pj"
@@ -35,9 +34,9 @@
     <View
         android:id="@+id/divider_level_um"
         android:layout_width="1dp"
-        android:layout_height="354dp"
+        android:layout_height="346dp"
         android:layout_below="@id/level_um"
-        android:layout_marginStart="33dp"
+        android:layout_marginStart="27dp"
         android:background="@color/colorPrimaryDark" />
 
     <LinearLayout
@@ -47,13 +46,13 @@
         android:layout_alignStart="@+id/divider_level_um"
         android:layout_below="@+id/level_um"
         android:layout_marginEnd="13dp"
-        android:layout_marginStart="15dp"
+        android:layout_marginStart="10dp"
         android:orientation="vertical">
 
         <EditText
             android:id="@+id/edt_nome_fantasia"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:background="@drawable/borda_edittext"
             android:drawableStart="@mipmap/ic_pessoa_pj"
             android:hint="@string/edt_nome_fantasia"
@@ -76,7 +75,7 @@
         <EditText
             android:id="@+id/ed_razao_social"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="08dp"
             android:background="@drawable/borda_edittext"
             android:drawableStart="@mipmap/ic_pessoa_pj"
@@ -101,7 +100,7 @@
         <EditText
             android:id="@+id/ed_telefones"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="08dp"
             android:background="@drawable/borda_edittext"
             android:drawableStart="@mipmap/ic_phone"
@@ -125,7 +124,7 @@
         <EditText
             android:id="@+id/ed_cnpj"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="08dp"
             android:background="@drawable/borda_edittext"
             android:drawableStart="@mipmap/ic_cpf"
